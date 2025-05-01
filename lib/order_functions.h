@@ -141,7 +141,7 @@ bool addProducts(ORDER order[numOfCustomers], PRODUCT product[numOfCategories][n
             // Cancel if amount is zero for existing products
             if (amounts == 0)
             {
-                cout << RED << "Cancelled updating product.\n"
+                cout << RED << "Canceled updating product.\n"
                      << RESET;
                 answerofproduct = "y";
                 continue;
@@ -328,7 +328,7 @@ void ModifyOrder(ORDER order[numOfCustomers], int &id)
 
         else if (option == 0)
         {
-            break;
+            continue;
         }
         else
         {
@@ -344,7 +344,7 @@ void ModifyOrder(ORDER order[numOfCustomers], int &id)
         finalorder[i] = order[index].Products[i];
     }
 
-    if (order[index].productcount != 0)
+    if (order[index].productcount != 0 )
     {
 
         cout << TEAL << "Final ordered items : \n"
