@@ -118,7 +118,7 @@ bool addProducts(ORDER order[numOfCustomers], PRODUCT product[numOfCategories][n
         // Cancel add if amount is zero
         if (amounts == 0)
         {
-            cout << RED << "Cancelled adding product.\n"
+            cout << RED << "Canceled adding product.\n"
                  << RESET;
             answerofproduct = "y";
             continue;
@@ -253,8 +253,25 @@ void ModifyOrder(ORDER order[numOfCustomers], int &id)
 
         cout << YELLOW << "Choose an item number to modify (0 to return)\n"
              << RESET;
+
+        string input;
         int choice;
-        cin >> choice;
+        cin >> input;
+		if (input.length() == 1 && isdigit(input[0]))
+		{
+			choice = input[0] - '0';
+		}
+		else if (input == "10")
+		{
+			choice = 10;
+		}
+		else
+		{
+			cout << RED << "Invalid input. Please enter a valid number.\n"
+				<< RESET;
+			continue;
+		}
+
 
         if (choice == 0)
             break;
@@ -277,14 +294,80 @@ void ModifyOrder(ORDER order[numOfCustomers], int &id)
         cout << CYAN << "0. Cancel\n"
              << RESET;
         cout << "Enter Your option : ";
+		string optionInput;
         int option;
-        cin >> option;
+        cin >> optionInput;
+		if (optionInput.length() == 1 && isdigit(optionInput[0]))
+		{
+			option = optionInput[0] - '0';
+		}
+		else if (optionInput == "10")
+		{
+			option = 10;
+		}
+		else
+		{
+			cout << RED << "Invalid input. Please enter a valid number.\n"
+				<< RESET;
+			continue;
+		}
 
         if (option == 1)
         {
             int newQuantity;
             cout << "Enter your new quantity : ";
-            cin >> newQuantity;
+			string newQuantityInput;
+			cin >> newQuantityInput;
+			if (newQuantityInput.length() == 1 && isdigit(newQuantityInput[0]))
+			{
+				newQuantity = newQuantityInput[0] - '0';
+			}
+			else if (newQuantityInput == "10")
+			{
+				newQuantity = 10;
+			}
+			else
+			{
+				// Check if the input is a valid number
+				bool isValid = true;
+				for (char c : newQuantityInput)
+				{
+					if (!isdigit(c))
+					{
+						isValid = false;
+                            
+						break;
+					}
+				}
+				if (isValid)
+				{
+					newQuantity = stoi(newQuantityInput);
+					if (newQuantity > 10)
+					{
+						cout << ORANGE << "Please head to Supplier\n"
+							<< RESET;
+						continue;
+					}
+				}
+                    
+                    
+                    
+				else
+
+                            
+				{
+					cout << RED << "Invalid input. Please enter a valid number.\n"
+						<< RESET;
+                        
+					continue;
+				}
+			}
+			if (newQuantity == 0)
+			{
+				cout << RED << "Canceled updating product.\n"
+					<< RESET;
+				continue;
+			}
             if (newQuantity < 1)
             {
                 cout << RED << "Invalid quantity.\n"
@@ -352,7 +435,7 @@ void ModifyOrder(ORDER order[numOfCustomers], int &id)
         for (int i = 0; i < finalcount; i++)
         {
             cout << i + 1 << ". " << finalorder[i].Name;
-            cout << " | Quantity : " << order[index].productcount;
+            cout << " | Quantity : " << order[index].Amount[i];
             cout << " | Price : " << finalorder[i].Price;
             cout << " EGP\n";
         }

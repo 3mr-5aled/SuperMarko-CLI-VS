@@ -226,6 +226,73 @@ void registerUser(CUSTOMER customers[], const int numerofcustomers, fstream &myf
     return;
 }
 
+int loginUser(CUSTOMER customers[], const int numerofcustomers)
+{
+    string username, password;
+    int attempts = 3, index = 0;
+
+    cin.ignore();
+    while (attempts > 0)
+    {
+        cout << endl;
+        cout << CYAN << "Enter your username: " << RESET;
+        getline(cin, username);
+        cout << CYAN << "Enter your password: " << RESET;
+        password = "";
+        char ch;
+
+        // Mask input
+        while ((ch = _getch()) != '\r') // Enter key
+        {
+            if (ch == '\b' && !password.empty())
+            {
+                password.pop_back();
+                cout << "\b \b";
+            }
+            else if (ch != '\b')
+            {
+                password += ch;
+                cout << '*';
+            }
+        }
+        cout << endl;
+        cout << endl;
+        bool found = false;
+        for (int i = 0; i < numerofcustomers; i++)
+        {
+            if (!customers[i].Name.empty())
+            {
+                if (username == customers[i].Name && password == customers[i].Password)
+                {
+                    cout << GREEN << "Login: Authentication successful" << RESET << endl;
+                    index = i;
+                    found = true;
+                    break;
+                }
+            }
+        }
+
+        if (found)
+            return customers[index].ID;
+        else
+        {
+            attempts--;
+            cout << RED << "The username or password is incorrect. " << RESET;
+            if (attempts > 0)
+                cout << YELLOW << "You have " << attempts << " attempt(s) left.\n"
+                << RESET;
+            else
+            {
+                cout << RED << "\nNo attempts left.\n"
+                    << RESET;
+                return 0;
+            }
+        }
+    }
+    return 0;
+}
+
+
 int menu_logging_in(CUSTOMER customers[], const int numerofcustomers, fstream &myfile, int &id)
 {
     int flag = 1;
@@ -288,68 +355,3 @@ int menu_logging_in(CUSTOMER customers[], const int numerofcustomers, fstream &m
     return flag;
 }
 
-int loginUser(CUSTOMER customers[], const int numerofcustomers)
-{
-    string username, password;
-    int attempts = 3, index = 0;
-
-    cin.ignore();
-    while (attempts > 0)
-    {
-        cout << endl;
-        cout << CYAN << "Enter your username: " << RESET;
-        getline(cin, username);
-        cout << CYAN << "Enter your password: " << RESET;
-        password = "";
-        char ch;
-
-        // Mask input
-        while ((ch = _getch()) != '\r') // Enter key
-        {
-            if (ch == '\b' && !password.empty())
-            {
-                password.pop_back();
-                cout << "\b \b";
-            }
-            else if (ch != '\b')
-            {
-                password += ch;
-                cout << '*';
-            }
-        }
-        cout << endl;
-        cout << endl;
-        bool found = false;
-        for (int i = 0; i < numerofcustomers; i++)
-        {
-            if (!customers[i].Name.empty())
-            {
-                if (username == customers[i].Name && password == customers[i].Password)
-                {
-                    cout << GREEN << "Login: Authentication successful" << RESET << endl;
-                    index = i;
-                    found = true;
-                    break;
-                }
-            }
-        }
-
-        if (found)
-            return customers[index].ID;
-        else
-        {
-            attempts--;
-            cout << RED << "The username or password is incorrect. " << RESET;
-            if (attempts > 0)
-                cout << YELLOW << "You have " << attempts << " attempt(s) left.\n"
-                     << RESET;
-            else
-            {
-                cout << RED << "\nNo attempts left.\n"
-                     << RESET;
-                return 0;
-            }
-        }
-    }
-    return 0;
-}
