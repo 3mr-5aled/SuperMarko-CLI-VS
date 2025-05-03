@@ -439,6 +439,13 @@ void DisplayOrderWithVAT(ORDER order[numOfCustomers], int& id)
     cout << "| " << setw(35) << left << "Total (After VAT):"
         << GREEN << setw(20) << right << fixed << setprecision(2) << orderWithVAT.TotalPrice << " EGP " << RESET << "|\n";
     cout << " --------------------------------------------------------------------------- \n";
+	cout << YELLOW << "Note:" << RESET << " The total price includes a VAT of 14%.\n"
+		<< RESET;
+	cout << YELLOW << "Note:" << RESET << " The discount is applied for orders above 1000 EGP.\n"
+		<< RESET;
+	cout << YELLOW << "Note:" << RESET << " The shipping cost is free for orders above 1000 EGP.\n"
+		<< RESET;
+
 
     if (discount > 0.0)
     {

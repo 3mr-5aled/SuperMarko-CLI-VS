@@ -24,8 +24,8 @@ int displayMenu()
 		bool state = changestateExchange(choice, digitchoice);
         if (digitchoice < 0 || digitchoice > 4 || !state)
         {
-            cout << RED << "Invalid choice. Please enter a number between 0 and 4.\n"
-                << RESET;
+            cout << RED << "Invalid choice. Please enter a number between 0 and 4."
+                << RESET<<endl;
             continue;
         }
         break;
@@ -59,27 +59,27 @@ bool editName(CUSTOMER& currentCustomer, CUSTOMER customers[], int numOfCustomer
         // Check if username is empty or contains only spaces
         if (name.empty() || name.find_first_not_of(' ') == string::npos)
         {
-            cout << RED << "Username cannot be empty!\n" << RESET;
+            cout << RED << "Username cannot be empty!" << RESET<<endl;
         }
         else if (name.length() < 3 || name.length() > 20)
         {
-            cout << RED << "Username must be between 3 and 20 characters.\n" << RESET;
+            cout << RED << "Username must be between 3 and 20 characters." << RESET<<endl;
         }
         else if (name.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._") != string::npos)
         {
-            cout << RED << "Username can only contain letters, numbers, dots (.), and underscores (_).\n" << RESET;
+            cout << RED << "Username can only contain letters, numbers, dots (.), and underscores (_)." << RESET<<endl;
         }
         else if (name.front() == '.' || name.front() == '_' || name.back() == '.' || name.back() == '_')
         {
-            cout << RED << "Username cannot start or end with '.' or '_'.\n" << RESET;
+            cout << RED << "Username cannot start or end with '.' or '_'." << RESET<<endl;
         }
         else if (name.find("..") != string::npos || name.find("__") != string::npos)
         {
-            cout << RED << "Username cannot contain consecutive '.' or '_'.\n" << RESET;
+            cout << RED << "Username cannot contain consecutive '.' or '_'." << RESET<<endl;
         }
         else if (name == currentCustomer.Name)
         {
-            cout << RED << "New username cannot be the same as current username.\n" << RESET;
+            cout << RED << "New username cannot be the same as current username." << RESET<<endl;
         }
         else
         {
@@ -133,28 +133,28 @@ bool editPhoneNumber(CUSTOMER& currentCustomer)
         // Check if phone number is empty or contains spaces
         if (phone.empty() || phone.find(' ') != string::npos)
         {
-            cout << RED << "Phone number cannot be empty or contain spaces!\n" << RESET;
+            cout << RED << "Phone number cannot be empty or contain spaces!" << RESET <<endl;
             continue;
         }
 
         // Check if phone number is exactly 11 digits and contains only numbers
         if (phone.length() != 11 || phone.find_first_not_of("0123456789") != string::npos)
         {
-            cout << RED << "Phone number must be 11 digits long and contain only numbers.\n" << RESET;
+            cout << RED << "Phone number must be 11 digits long and contain only numbers." << RESET<<endl;
             continue;
         }
 
         // Check if phone number starts with valid Egyptian prefixes
         if (phone.substr(0, 3) != "010" && phone.substr(0, 3) != "011" && phone.substr(0, 3) != "012" && phone.substr(0, 3) != "015")
         {
-            cout << RED << "Invalid phone number prefix. Egyptian phone numbers must start with 010, 011, 012, or 015.\n" << RESET;
+            cout << RED << "Invalid phone number prefix. Egyptian phone numbers must start with 010, 011, 012, or 015." << RESET<<endl;
             continue;
         }
 
         // Check if new phone is the same as current
         if (phone == currentCustomer.PhoneNumber)
         {
-            cout << RED << "New phone number cannot be the same as current phone number.\n" << RESET;
+            cout << RED << "New phone number cannot be the same as current phone number." << RESET<<endl;
             continue;
         }
 
@@ -188,23 +188,23 @@ bool editLocation(CUSTOMER& currentCustomer)
 
         if (location.empty() || location.find_first_not_of(' ') == string::npos)
         {
-            cout << RED << "Location cannot be empty!\n" << RESET;
+            cout << RED << "Location cannot be empty!" << RESET<<endl;
         }
         else if (location.length() < 5)
         {
-            cout << RED << "Location must be at least 5 characters long.\n" << RESET;
+            cout << RED << "Location must be at least 5 characters long." << RESET<<endl;
         }
         else if (location.length() > 100)
         {
-            cout << RED << "Location cannot exceed 100 characters.\n" << RESET;
+            cout << RED << "Location cannot exceed 100 characters." << RESET<<endl;
         }
-        else if (location.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ,.-") != string::npos)
+        else if (location.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .-") != string::npos)
         {
-            cout << RED << "Location contains invalid characters. Only letters, numbers, spaces, commas, periods, and hyphens are allowed.\n" << RESET;
+            cout << RED << "Location contains invalid characters. Only letters, numbers, spaces, periods, and hyphens are allowed." << RESET<<endl;
         }
         else if (location == currentCustomer.Location)
         {
-            cout << RED << "New location cannot be the same as current location.\n" << RESET;
+            cout << RED << "New location cannot be the same as current location." << RESET<<endl;
         }
         else
         {
@@ -226,72 +226,83 @@ bool editPassword(CUSTOMER& currentCustomer)
 
     while (!validPassword)
     {
-        cout << BOLD << CYAN << "Enter the new password (Must has at least 8 characters , 1 UPPERCASE , 1 LOWERCASE , 1 SPEICAL CHARACTER): " << RESET;
+        cout << BOLD << CYAN << "Enter the new password (Must has at least 8 characters , 1 UPPERCASE , 1 LOWERCASE , 1 SPEICAL CHARACTER): " << RESET <<endl << "New Password: ";
         password = "";
-        bool outfunc = returning(password, "editing",true);
-        // Mask input
-        if (!outfunc)
-            return false;
+        char ch;
+        while ((ch = _getch()) != '\r') // Enter key
+        {
+            if (ch == '\b' && !password.empty())
+            {
+                password.pop_back();
+                cout << "\b \b";
+            }
+            else if (ch != '\b')
+            {
+                password += ch;
+                cout << '*';
+            }
+        }
+        cout << endl;
 
         // Check if password is empty
         if (password.empty())
         {
-            cout << RED << "Password cannot be empty!\n" << RESET;
+            cout << RED << "Password cannot be empty!" << RESET<<endl;
             continue;
         }
 
         // Check if password contains spaces
         if (password.find(' ') != string::npos)
         {
-            cout << RED << "Password cannot contain spaces!\n" << RESET;
+            cout << RED << "Password cannot contain spaces!" << RESET<<endl;
             continue;
         }
 
         // Check if password is at least 8 characters long
         if (password.size() < 8)
         {
-            cout << RED << "Password must be at least 8 characters long!\n" << RESET;
+            cout << RED << "Password must be at least 8 characters long!" << RESET<<endl;
             continue;
         }
 
         // Check if password contains at least one uppercase letter
         if (password.find_first_of("ABCDEFGHIJKLMNOPQRSTUVWXYZ") == string::npos)
         {
-            cout << RED << "Password must contain at least one uppercase letter!\n" << RESET;
+            cout << RED << "Password must contain at least one uppercase letter!" << RESET<<endl;
             continue;
         }
 
         // Check if password contains at least one lowercase letter
         if (password.find_first_of("abcdefghijklmnopqrstuvwxyz") == string::npos)
         {
-            cout << RED << "Password must contain at least one lowercase letter!\n" << RESET;
+            cout << RED << "Password must contain at least one lowercase letter!" << RESET<<endl;
             continue;
         }
 
         // Check if password contains at least one numeric digit
         if (password.find_first_of("0123456789") == string::npos)
         {
-            cout << RED << "Password must contain at least one number!\n" << RESET;
+            cout << RED << "Password must contain at least one number!" << RESET<<endl;
             continue;
         }
 
         // Check if password contains at least one special character
         if (password.find_first_of("!@#$%^&*()-_=+[]{}|;:'\",.<>?/") == string::npos)
         {
-            cout << RED << "Password must contain at least one special character!\n" << RESET;
+            cout << RED << "Password must contain at least one special character!" << RESET << endl;
             continue;
         }
 
         // Check if new password is the same as current
         if (password == currentCustomer.Password)
         {
-            cout << RED << "New password cannot be the same as current password.\n" << RESET;
+            cout << RED << "New password cannot be the same as current password." << RESET<<endl;
             continue;
         }
 
         // Confirm password
         string confirmPassword = "";
-        cout << BOLD << CYAN << "Confirm your new password (Press Backspace to cancel): " << RESET;
+        cout << BOLD << "Confirm your new password (Press Backspace to cancel): " << RESET;
 
         // Mask input for confirmation
         if (!returning(confirmPassword, "editing",true))
@@ -300,7 +311,7 @@ bool editPassword(CUSTOMER& currentCustomer)
         // Check if passwords match
         if (password != confirmPassword)
         {
-            cout << RED << "Passwords do not match!\n" << RESET;
+            cout << RED << "Passwords do not match!" << RESET<<endl;
             continue;
         }
 

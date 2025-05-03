@@ -37,7 +37,7 @@ int main()
 	
 	while (!exitProgram)
 	{
-		cout << "\n═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════\n";
+		cout <<endl <<"═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════"<<endl;
 		cout << BLINK << ORANGE << R"(
 
 		⠀⠀⠈⠛⠻⠶⣶⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -51,7 +51,8 @@ int main()
 		⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣾⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 		⠀⠀⠀⠀⠀⠀⠀⠀⠀⢾⣷⢶⣶⠶⠶⠶⠶⠶⠶⠶⣶⠶⣶⡶⠀⠀⠀⠀⠀⠀
 		⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣧⣠⡿⠀⠀⠀⠀⠀⠀⢷⣄⣼⠇⠀⠀⠀⠀⠀⠀⠀
-
+		⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠀⠀⠀⠀⠀⠀⠀⠈⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀
+		)" << RESET<<ORANGE<<R"(
 		Welcome to the Grocery Store Management System
 		)" << RESET;
 		cout << BOLD << TEAL <<
@@ -70,10 +71,13 @@ int main()
 
 		if (!flag)
 		{
-			cout << RED << "LOGIN FAILED!....." << RESET << endl;
 			exitProgram = true;
+			if(!exitProgram)
+				cout << RED << "LOGIN FAILED!....." << RESET << endl;
 			break;
 		}
+
+
 		int number;
 		bool loggedIn = true;
 
