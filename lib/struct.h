@@ -66,5 +66,5 @@ const string WHITE_BG = "\033[107m";    // Bright white background
 const string BLACK_TEXT = "\033[90m";   // Bright black (gray) text
 const string ORANGE = "\033[38;5;214m"; // Bright orange
 const string TEAL = "\033[36m";         // Teal color
-
+const string BLINK = "\033[5m";
 #endif // STRUCT_H

@@ -3,9 +3,9 @@
 #include <fstream>
 #include <string>
 #include <iomanip>
+#include "lib/change_exchange.h"
 using namespace std;
 
-const int CATEGORY = 10;
 const int NUMBEROFPRODUCT = 10;
 bool addProducts(ORDER order[numOfCustomers], PRODUCT product[numOfCategories][numOfProducts], int &id, int CategoryCase, bool &returnToCategoryMenu);
 int bigmenu()
@@ -34,26 +34,25 @@ int bigmenu()
 		cout << YELLOW << "Please enter the number you want to choose from the above list (1-5): " << RESET;
 
 		cin >> input;
-		if (input.length() == 1 && isdigit(input[0]))
-		{
-			number = input[0] - '0';
-			if (number >= 0 && number <= 6)
-				return number;
-			else
-				cout << RED << "\nInvalid input, number must be between 0 and 6.\n"
-					 << RESET;
-		}
-		else
+		bool state = changestateExchange(input, number);
+		if (!state)
 		{
 			cout << RED << "\nINVALID CHOICE. Please enter a valid number.\n"
-				 << RESET;
+				<< RESET;
 		}
+		else if (number < 0 || number > 5)
+		{
+			cout << RED << "\nInvalid input, number must be between 0 and 5.\n"
+				<< RESET;
+		}
+		else
+			break;
 	}
 
 	return number;
 }
 
-void Categories(PRODUCT product[CATEGORY][NUMBEROFPRODUCT], int &id, const int NUMBEROFPRODUCT, ORDER order[numOfCustomers])
+void Categories(PRODUCT product[numOfCategories][numOfProducts], int &id, const int numOfProducts, ORDER order[numOfCustomers])
 {
 	int numberofcategory;
 	string choice;
@@ -64,7 +63,7 @@ void Categories(PRODUCT product[CATEGORY][NUMBEROFPRODUCT], int &id, const int N
 		bool returnToCategoryMenu = false;
 		cout << endl;
 		cout << BOLD << BLUE << "\n========= SUPERMARKET CATEGORIES =========\n"
-			 << RESET;
+			<< RESET;
 		cout << GREEN << "1.  Fresh Produce (fruits)\n";
 		cout << "2.  Fresh Produce (vegetable)\n";
 		cout << "3.  Dairy & Eggs\n";
@@ -76,29 +75,25 @@ void Categories(PRODUCT product[CATEGORY][NUMBEROFPRODUCT], int &id, const int N
 		cout << "9.  Household & Cleaning Supplies\n";
 		cout << "10. Pet Supplies\n";
 		cout << "0. Return to big menu.\n"
-			 << RESET;
+			<< RESET;
 		cout << BOLD << BLUE << "===========================================\n"
-			 << RESET;
+			<< RESET;
 		cout << YELLOW << "Please enter the category number: " << RESET;
-
+		cin.clear();
 		cin >> input;
-		if ((input.length() == 1 && isdigit(input[0])))
-		{
-			numberofcategory = input[0] - '0';
-			CategoryCases = numberofcategory;
-		}
-		else if (input == "10")
-		{
-			numberofcategory = 10;
-			CategoryCases = numberofcategory;
-		}
-		else
+		
+		bool state = changestateExchange(input, numberofcategory);
+
+		if (numberofcategory < 0 || numberofcategory > 10 || !state)
 		{
 			cout << RED << "\nInvalid input, please enter a number between 0 and 10.\n"
-				 << RESET;
+				<< RESET;
 			continue;
 		}
-
+		else
+			CategoryCases = numberofcategory;
+		
+		
 		if (numberofcategory > 0 && numberofcategory < 11)
 		{
 			cout << PURPLE << "\n\t\t\t    You selected: " << product[numberofcategory - 1][0].Category << " of category.\n"
@@ -148,35 +143,22 @@ void Categories(PRODUCT product[CATEGORY][NUMBEROFPRODUCT], int &id, const int N
 		if (returnToCategoryMenu)
 			continue;
 
-		cout << GREEN << "Do you want to return back to categories? (y/n)" << RESET << endl;
-		cin >> choice;
+		while (true) {
+			cout << GREEN << "Do you want to return back to categories? (y/n): " << RESET;
+			cin >> choice;
 
-		if (choice == "n" || choice == "N")
-		{
-			return;
-		}
-		else if (choice == "y" || choice == "Y")
-		{
-			continue;
-		}
-		else
-		{
-			while (true)
-			{
-				cout << RED << "\nInvalid input, please enter 'y' or 'n'.\n"
-					 << RESET;
-				cout << YELLOW << "Do you want to continue? (y/n): " << RESET;
-				cin >> choice;
-
-				if (choice == "y" || choice == "Y")
-				{
-					break;
-				}
-				else if (choice == "n" || choice == "N")
-				{
-					return;
-				}
+			if (choice == "y" || choice == "Y") {
+				// User wants to return — restart loop
+				break; // or use 'continue;' if inside a larger loop
+			}
+			else if (choice == "n" || choice == "N") {
+				// User wants to exit
+				return;
+			}
+			else {
+				cout << RED << "Invalid input. Please enter 'y' or 'n'.\n" << RESET;
 			}
 		}
+
 	}
 }

@@ -11,7 +11,7 @@
 #include "lib/get_functions.h"
 #include "lib/save_functions.h"
 #include "lib/order_functions.h"
-
+#include"lib/display_func.h"
 
 using namespace std;
 
@@ -33,13 +33,12 @@ int main()
 	read_finalorder_from_file(order);
 
 	int id = 0;
-	int index;
 	bool exitProgram = false;
-	// nice
+	
 	while (!exitProgram)
 	{
 		cout << "\n═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════\n";
-		cout << ORANGE << R"(
+		cout << BLINK << ORANGE << R"(
 
 		⠀⠀⠈⠛⠻⠶⣶⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 		⠀⠀⠀⠀⠀⠈⢻⣆⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⠀⠀⠀
@@ -65,17 +64,17 @@ int main()
 		                                                              made by: real developers🧑🏻‍💻
 		)" << RESET
 			<< endl;
-
-		int flag = menu_logging_in(customers, numOfCustomers, myfile, id);
+		bool back;
+		int flag = 1;
+		menu_logging_in(customers, numOfCustomers, myfile, id,flag,back);
 
 		if (!flag)
 		{
+			cout << RED << "LOGIN FAILED!....." << RESET << endl;
 			exitProgram = true;
 			break;
 		}
-
 		int number;
-		string choice;
 		bool loggedIn = true;
 
 		while (loggedIn)
@@ -84,89 +83,45 @@ int main()
 			switch (number)
 			{
 			case 1:
-				cout << CYAN << "\nYou selected: Edit your information\n"
-					<< RESET;
-				cout << "═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════\n";
-				cout << endl;
-				editUserInformation(customers, id, numOfCustomers);
+				display_edit_func(id);
 				continue;
 			case 2:
-				cout << CYAN << "\nYou selected: View product menu\n"
-					<< RESET;
-				cout << "═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════\n";
-				cout << endl;
-				Categories(product, id, NUMBEROFPRODUCT, order);
+				display_product_func(id);
 				continue;
-
 			case 3:
-				cout << CYAN << "\nYou selected: Review your order\n"
-					<< RESET;
-				cout << "═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════\n";
-				ReviewOrder(order, id);
-				cout << endl;
+				display_revieworder_func(id);
 				break;
 			case 4:
-				cout << CYAN << "\nYou selected: Modify your order\n"
-					<< RESET;
-				cout << "═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════\n";
-				ModifyOrder(order, id);
-				cout << endl;
+				display_modifyorder_func(id);
 				break;
 			case 5:
-				cout << CYAN << "\nYou selected: View total price\n"
-					<< RESET;
-				cout << "═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════\n";
-				DisplayOrderWithVAT(order, id);
-				cout << endl;
+				display_checkout_func(id);
 				break;
 			case 0:
-				cout << RED << "\nLogging out...\n"
-					<< RESET;
-				cout << "═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════\n";
-				cout << endl;
-				id = 0;
-				loggedIn = false;
+				log_out(id, loggedIn);
 				break;
 			default:
-				cout << RED << "\nInvalid input, please enter a number between 1 and 5.\n"
-					<< RESET;
-				cout << "═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════\n";
-				cout << endl;
+				display_message_Error();
 				continue;
 			}
 			if (loggedIn)
 			{
-				// while (true)
-				// {
-				// 	cout << YELLOW << "Do you want another operation from the program? (y/n): " << RESET;
-				// 	cin >> choice;
-				// 	if (choice == "y" || choice == "Y")
-				// 	{
-				// 		// valid, continue with operations
-				// 		break;
-				// 	}
-				// 	else if (choice == "n" || choice == "N")
-				// 	{
-				// 		loggedIn = false;
-				// 		id = 0;
-				// 		break;
-				// 	}
-				// 	else
-				// 	{
-				// 		cout << RED << "Invalid choice! Please enter 'y' or 'n'." << RESET << endl;
-				// 	}
-				// }
-				cout << YELLOW << "Press Enter to continue..." << RESET;
+				/*loop(loggedIn, id);*/
+				/*cout << YELLOW << "Press Enter to continue..." << RESET;
 				cin.ignore(numeric_limits<streamsize>::max(), '\n');
 				char buffer[256];
 				cin.getline(buffer, sizeof(buffer));
-				cout << endl;
+				cout << endl;*/
+				cout << YELLOW << "Press Enter to continue..." << RESET;
+				cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Flush input
+				cin.get(); // Waits for Enter
+
+
 			}
 		}
 	}
 
 	myfile.close(); // Close read file
-
 	save_customers(customers);
 	save_finalorder(order);
 	

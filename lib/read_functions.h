@@ -4,7 +4,7 @@
 #include "struct.h"
 using namespace std;
 
-void read_product_from_file(PRODUCT product[CATEGORY][NUMBEROFPRODUCT], const int CATEGORY, const int NUMBEROFPRODUCT)
+void read_product_from_file(PRODUCT product[numOfCategories][numOfProducts], const int CATEGORY, const int numOfProducts)
 {
 	fstream myfile;
 	myfile.open("data/productmenu.txt", ios::in);

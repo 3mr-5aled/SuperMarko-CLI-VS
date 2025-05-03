@@ -129,6 +129,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="lib\addtional_features.h" />
+    <ClInclude Include="lib\change_exchange.h" />
+    <ClInclude Include="lib\display_func.h" />
     <ClInclude Include="lib\edit_functions.h" />
     <ClInclude Include="lib\get_functions.h" />
     <ClInclude Include="lib\menu_functions.h" />

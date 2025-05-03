@@ -1,11 +1,12 @@
-#include "struct.h"
+﻿#include "lib/struct.h"
 #include <iostream>
+#include "lib/change_exchange.h"
 #include <fstream>
 #include <string>
 #include <iomanip>
 using namespace std;
 
-bool addProducts(ORDER order[numOfCustomers], PRODUCT product[numOfCategories][numOfProducts], int &id, int CategoryCase, bool &returnToCategoryMenu)
+bool addProducts(ORDER order[numOfCustomers], PRODUCT product[numOfCategories][numOfProducts], int& id, int CategoryCase, bool& returnToCategoryMenu)
 {
     int number;
     string productInput;
@@ -18,53 +19,43 @@ bool addProducts(ORDER order[numOfCustomers], PRODUCT product[numOfCategories][n
     if (i >= 10)
     {
         cout << RED << "Maximum limit of 10 products reached. Cannot add more products.\n"
-             << RESET;
+            << RESET;
         return false;
     }
-
-    do
+    answerofproduct = "y";
+    while (answerofproduct == "y")
     {
         if (i >= 10)
         {
             cout << RED << "Maximum limit of 10 products reached. Cannot add more products.\n"
-                 << RESET;
+                << RESET;
             return false;
         }
 
         cout << YELLOW << "Please choose a product by entering a number between 1 and 10.\n"
-             << RESET;
+            << RESET;
         cout << YELLOW << "Enter 0 to return to categories.\n"
-             << RESET;
+            << RESET;
         cin >> productInput;
 
-        if ((productInput.length() == 1 && isdigit(productInput[0])))
-        {
-            number = productInput[0] - '0';
-        }
-        else if (productInput == "10")
-        {
-            number = 10;
-        }
-        else
-        {
-            cout << RED << "Invalid input. Please enter a valid number.\n"
-                 << RESET;
-            answerofproduct = "y";
+        
+
+        if (!changestateExchange(productInput, number)) {
+            cout << RED << "Invalid input. Please enter a number.\n" << RESET;
             continue;
         }
-
         if (number == 0)
         {
             cout << BLUE << "Returning to category menu...\n"
-                 << RESET;
+                << RESET;
             returnToCategoryMenu = true;
             break;
         }
 
         if (!(number >= 1 && number <= 10))
         {
-            cout << RED << "There is no choice like this.\n"
-                 << RESET;
+            cout << RED << "Invalid input. Please enter a valid number.\n"
+                << RESET;
             answerofproduct = "y";
             continue;
         }
@@ -73,53 +64,45 @@ bool addProducts(ORDER order[numOfCustomers], PRODUCT product[numOfCategories][n
         string productName = product[CategoryCase - 1][number - 1].Name;
 
         cout << YELLOW << "How many amount of " << CYAN << productName << YELLOW << " do you want? (enter 0 to cancel)\n"
-             << RESET;
+            << RESET;
         cin >> amount;
-        if ((amount.length() == 1 && isdigit(amount[0])))
-        {
-            amounts = amount[0] - '0';
-        }
-        else if (amount == "10")
-        {
-            amounts = 10;
-        }
-        else
-        {
-            // Check if the input is a valid number
-            bool isValid = true;
-            for (char c : amount)
-            {
-                if (!isdigit(c))
-                {
-                    isValid = false;
-                    break;
-                }
-            }
+        changestateExchange(amount, amounts);
 
-            if (isValid)
+        // Check if the input is a valid number
+        bool isValid = true;
+        for (char c : amount)
+        {
+            if (!isdigit(c))
             {
-                amounts = stoi(amount);
-                if (amounts > 10)
-                {
-                    cout << ORANGE << "Please head to Supplier\n"
-                         << RESET;
-                    answerofproduct = "y";
-                    continue;
-                }
+                isValid = false;
+                break;
             }
-            else
+        }
+
+        if (isValid)
+        {
+            amounts = stoi(amount);
+            if (amounts > 10)
             {
-                cout << RED << "Invalid input. Please enter a valid number.\n"
-                     << RESET;
+                cout << ORANGE << "Please head to Supplier\n"
+                    << RESET;
                 answerofproduct = "y";
                 continue;
             }
         }
+        else
+        {
+            cout << RED << "Invalid input. Please enter a valid number.\n"
+                << RESET;
+            answerofproduct = "y";
+            continue;
+        }
+
         // Cancel add if amount is zero
         if (amounts == 0)
         {
             cout << RED << "Canceled adding product.\n"
-                 << RESET;
+                << RESET;
             answerofproduct = "y";
             continue;
         }
@@ -142,7 +125,7 @@ bool addProducts(ORDER order[numOfCustomers], PRODUCT product[numOfCategories][n
             if (amounts == 0)
             {
                 cout << RED << "Canceled updating product.\n"
-                     << RESET;
+                    << RESET;
                 answerofproduct = "y";
                 continue;
             }
@@ -150,15 +133,15 @@ bool addProducts(ORDER order[numOfCustomers], PRODUCT product[numOfCategories][n
             if (amounts < 1 || amounts > 10)
             {
                 cout << RED << "Invalid quantity. Please enter a number between 1 and 10.\n"
-                     << RESET;
+                    << RESET;
                 answerofproduct = "y";
                 continue;
             }
             if (order[id - 1].Amount[existingIndex] + amounts > 10)
             {
                 cout << ORANGE << "Maximum amount for each customer is 10. You currently have "
-                     << order[id - 1].Amount[existingIndex] << ".\n"
-                     << RESET;
+                    << order[id - 1].Amount[existingIndex] << ".\n"
+                    << RESET;
                 answerofproduct = "y";
                 continue;
             }
@@ -168,7 +151,7 @@ bool addProducts(ORDER order[numOfCustomers], PRODUCT product[numOfCategories][n
             order[id - 1].Amount[existingIndex] += amounts;
             order[id - 1].Products[existingIndex].Price = order[id - 1].Amount[existingIndex] * product[CategoryCase - 1][number - 1].Price;
             order[id - 1].TotalPrice += order[id - 1].Products[existingIndex].Price;
-            cout << "Updated quantity of " << order[id - 1].Products[existingIndex].Name << " : " << GREEN << order[id - 1].Amount[existingIndex] << RESET << "\n ";
+            cout << "Updated quantity of " << order[id - 1].Products[existingIndex].Name << " : " << GREEN << order[id - 1].Amount[existingIndex] << RESET << endl;
         }
         else
         {
@@ -183,20 +166,30 @@ bool addProducts(ORDER order[numOfCustomers], PRODUCT product[numOfCategories][n
             i++;
         }
 
-        cout << GREEN << "Do you want to choose another product from current category? (y/n)\n"
-             << RESET;
+        cout << GREEN << "Do you want to choose another product from current category? (y/n)" << RESET<<endl;
         cin >> answerofproduct;
-    } while (answerofproduct == "y" || answerofproduct == "Y");
+
+        // Validate input
+        while (answerofproduct != "y" && answerofproduct != "Y" && answerofproduct != "n" && answerofproduct != "N") {
+            cout << RED << "Invalid input. Please enter 'y' or 'n'.\n" << RESET;
+            cout << GREEN << "Do you want to choose another product from current category? (y/n): " << RESET;
+            cin >> answerofproduct;
+        }
+
+        if (answerofproduct == "n" || answerofproduct == "N") {
+            break;
+        }
+    }
 
     return true;
 }
 
-void ReviewOrder(ORDER order[numOfCustomers], int &id)
+void ReviewOrder(ORDER order[numOfCustomers], int& id)
 {
     if (order[id - 1].productcount == 0)
     {
         cout << RED << "You have no items in your order to review.\n"
-             << RESET;
+            << RESET;
         return;
     }
 
@@ -218,14 +211,14 @@ void ReviewOrder(ORDER order[numOfCustomers], int &id)
     cout << "TOTAL: " << fixed << setprecision(2) << order[id - 1].TotalPrice << " EGP\n";
 }
 
-void ModifyOrder(ORDER order[numOfCustomers], int &id)
+void ModifyOrder(ORDER order[numOfCustomers], int& id)
 {
     int index = id - 1;
 
     if (order[index].productcount == 0)
     {
         cout << RED << "You have no items in your order to modify.\n"
-             << RESET;
+            << RESET;
         return;
     }
 
@@ -235,13 +228,13 @@ void ModifyOrder(ORDER order[numOfCustomers], int &id)
         if (order[index].productcount == 0)
         {
             cout << RED << "You have no items in your order to modify.\n"
-                 << RESET;
+                << RESET;
             return;
         }
         else
         {
             cout << TEAL << "Your current order : \n"
-                 << RESET;
+                << RESET;
 
             for (int i = 0; i < order[index].productcount; i++)
             {
@@ -252,34 +245,20 @@ void ModifyOrder(ORDER order[numOfCustomers], int &id)
         }
 
         cout << YELLOW << "Choose an item number to modify (0 to return)\n"
-             << RESET;
+            << RESET;
 
         string input;
         int choice;
         cin >> input;
-		if (input.length() == 1 && isdigit(input[0]))
-		{
-			choice = input[0] - '0';
-		}
-		else if (input == "10")
-		{
-			choice = 10;
-		}
-		else
-		{
-			cout << RED << "Invalid input. Please enter a valid number.\n"
-				<< RESET;
-			continue;
-		}
-
+        bool y = changestateExchange(input, choice);
 
         if (choice == 0)
             break;
 
-        if (choice < 1 || choice > order[index].productcount)
+        if (choice < 1 || choice > order[index].productcount || y == false)
         {
             cout << RED << "Invalid choice. Try again\n"
-                 << RESET;
+                << RESET;
             continue;
         }
         cout << "You have selected : " << order[index].Products[choice - 1].Name;
@@ -287,112 +266,86 @@ void ModifyOrder(ORDER order[numOfCustomers], int &id)
         cout << " | Price : " << order[index].Products[choice - 1].Price << " EGP\n";
 
         int ItemIndex = choice - 1;
-        cout << CYAN << "1. Change quantity\n"
-             << RESET;
-        cout << CYAN << "2. Remove Item\n"
-             << RESET;
-        cout << CYAN << "0. Cancel\n"
-             << RESET;
-        cout << "Enter Your option : ";
-		string optionInput;
-        int option;
-        cin >> optionInput;
-		if (optionInput.length() == 1 && isdigit(optionInput[0]))
-		{
-			option = optionInput[0] - '0';
-		}
-		else if (optionInput == "10")
-		{
-			option = 10;
-		}
-		else
-		{
-			cout << RED << "Invalid input. Please enter a valid number.\n"
-				<< RESET;
-			continue;
-		}
+
+        string optionInput;
+        int option = -1;
+        do
+        {
+            cout << CYAN << "1. Change quantity\n"
+                << RESET;
+            cout << CYAN << "2. Remove Item\n"
+                << RESET;
+            cout << CYAN << "0. Cancel\n"
+                << RESET;
+            cout << "Enter Your option : ";
+            string optionInput;
+            cin >> optionInput;
+
+            if (!changestateExchange(optionInput, option) || option < 0 || option > 2)
+            {
+                cout << RED << "Invalid option. Please enter 0, 1, or 2.\n"
+                    << RESET;
+                option = -1; // Force loop to repeat
+            }
+        } while (option == -1);
 
         if (option == 1)
         {
-            int newQuantity;
-            cout << "Enter your new quantity : ";
-			string newQuantityInput;
-			cin >> newQuantityInput;
-			if (newQuantityInput.length() == 1 && isdigit(newQuantityInput[0]))
-			{
-				newQuantity = newQuantityInput[0] - '0';
-			}
-			else if (newQuantityInput == "10")
-			{
-				newQuantity = 10;
-			}
-			else
-			{
-				// Check if the input is a valid number
-				bool isValid = true;
-				for (char c : newQuantityInput)
-				{
-					if (!isdigit(c))
-					{
-						isValid = false;
-                            
-						break;
-					}
-				}
-				if (isValid)
-				{
-					newQuantity = stoi(newQuantityInput);
-					if (newQuantity > 10)
-					{
-						cout << ORANGE << "Please head to Supplier\n"
-							<< RESET;
-						continue;
-					}
-				}
-                    
-                    
-                    
-				else
+            int newQuantity = -1;
+            string newQuantityInput;
 
-                            
-				{
-					cout << RED << "Invalid input. Please enter a valid number.\n"
-						<< RESET;
-                        
-					continue;
-				}
-			}
-			if (newQuantity == 0)
-			{
-				cout << RED << "Canceled updating product.\n"
-					<< RESET;
-				continue;
-			}
-            if (newQuantity < 1)
-            {
-                cout << RED << "Invalid quantity.\n"
-                     << RESET;
-                continue;
-            }
-            if (newQuantity == order[index].Amount[ItemIndex])
-            {
-                cout << RED << "Error : you entered the same quantity\n";
-                cout << RED << "you must change the quantity  \n"
-                     << RESET;
-                continue;
-            }
-            if (newQuantity > 10)
-            {
-                cout << ORANGE << "PLease head to Supplier\n"
-                     << RESET;
-                continue;
-            }
-            order[index].TotalPrice -= order[index].Products[ItemIndex].Price;
-            order[index].Amount[ItemIndex] = newQuantity;
-            order[index].Products[ItemIndex].Price = newQuantity * order[index].Products[ItemIndex].BasePrice;
-            order[index].TotalPrice += order[index].Products[ItemIndex].Price;
+            do {
+                cout << "Enter your new quantity : ";
+                cin >> newQuantityInput;
 
-            cout << GREEN << "Updated: " << order[index].Products[ItemIndex].Name << " x" << newQuantity << RESET << endl;
+                bool isValid = true;
+
+                // Validate input is digits only
+                for (char c : newQuantityInput)
+                {
+                    if (!isdigit(c))
+                    {
+                        isValid = false;
+                        break;
+                    }
+                }
+
+                if (!isValid || !changestateExchange(newQuantityInput, newQuantity))
+                {
+                    cout << RED << "Invalid input. Please enter a valid number.\n" << RESET;
+                    continue;
+                }
+
+                newQuantity = stoi(newQuantityInput);
+
+                if (newQuantity == 0)
+                {
+                    cout << RED << "Canceled updating product.\n" << RESET;
+                    break;
+                }
+
+                if (newQuantity < 1 || newQuantity > 10)
+                {
+                    cout << RED << "Invalid quantity. Must be between 1 and 10.\n" << RESET;
+                    continue;
+                }
+
+                if (newQuantity == order[index].Amount[ItemIndex])
+                {
+                    cout << RED << "You entered the same quantity. Please choose a different one.\n" << RESET;
+                    continue;
+                }
+
+                // ✅ Passed all checks — update order
+                order[index].TotalPrice -= order[index].Products[ItemIndex].Price;
+                order[index].Amount[ItemIndex] = newQuantity;
+                order[index].Products[ItemIndex].Price = newQuantity * order[index].Products[ItemIndex].BasePrice;
+                order[index].TotalPrice += order[index].Products[ItemIndex].Price;
+
+                cout << GREEN << "Updated: " << order[index].Products[ItemIndex].Name << " x" << newQuantity << RESET << endl;
+                break;
+
+            } while (true); // loop until valid input and quantity is changed
         }
 
         else if (option == 2)
@@ -416,7 +369,8 @@ void ModifyOrder(ORDER order[numOfCustomers], int &id)
         else
         {
             cout << RED << "Invalid option.\n"
-                 << RESET;
+                << RESET;
+            continue;
         }
     }
     PRODUCT finalorder[10];
@@ -427,11 +381,11 @@ void ModifyOrder(ORDER order[numOfCustomers], int &id)
         finalorder[i] = order[index].Products[i];
     }
 
-    if (order[index].productcount != 0 )
+    if (order[index].productcount != 0)
     {
 
         cout << TEAL << "Final ordered items : \n"
-             << RESET;
+            << RESET;
         for (int i = 0; i < finalcount; i++)
         {
             cout << i + 1 << ". " << finalorder[i].Name;
@@ -442,14 +396,14 @@ void ModifyOrder(ORDER order[numOfCustomers], int &id)
     }
 }
 
-void DisplayOrderWithVAT(ORDER order[numOfCustomers], int &id)
+void DisplayOrderWithVAT(ORDER order[numOfCustomers], int& id)
 {
     // Store original price before VAT
     double originalPrice = order[id - 1].TotalPrice;
     if (originalPrice == 0)
     {
         cout << RED << "NO ORDER EXISTS !!!!"
-             << RESET << endl;
+            << RESET << endl;
         return;
     }
 
@@ -475,25 +429,25 @@ void DisplayOrderWithVAT(ORDER order[numOfCustomers], int &id)
     cout << "|                           ORDER SUMMARY WITH VAT                           |\n";
     cout << " --------------------------------------------------------------------------- \n";
     cout << "| " << setw(35) << left << "Subtotal (Before VAT):"
-         << setw(20) << right << fixed << setprecision(2) << originalPrice << " EGP |\n";
+        << setw(20) << right << fixed << setprecision(2) << originalPrice << " EGP |\n";
     cout << "| " << setw(35) << left << "Discount Applied:"
-         << setw(23) << right << fixed << setprecision(2) << discount << "% |\n";
+        << setw(23) << right << fixed << setprecision(2) << discount << "% |\n";
     cout << "| " << setw(35) << left << "VAT (14%):"
-         << setw(20) << right << fixed << setprecision(2) << orderWithVAT.TotalPrice - (originalPrice + shipping) << " EGP |\n";
+        << setw(20) << right << fixed << setprecision(2) << orderWithVAT.TotalPrice - (originalPrice + shipping) << " EGP |\n";
     cout << "| " << setw(35) << left << "Shipping Cost:"
-         << setw(20) << right << fixed << setprecision(2) << shipping << " EGP |\n";
+        << setw(20) << right << fixed << setprecision(2) << shipping << " EGP |\n";
     cout << "| " << setw(35) << left << "Total (After VAT):"
-         << GREEN << setw(20) << right << fixed << setprecision(2) << orderWithVAT.TotalPrice << " EGP " << RESET << "|\n";
+        << GREEN << setw(20) << right << fixed << setprecision(2) << orderWithVAT.TotalPrice << " EGP " << RESET << "|\n";
     cout << " --------------------------------------------------------------------------- \n";
 
     if (discount > 0.0)
     {
         cout << YELLOW << "Note:" << RESET << " A discount of " << discount << "% has been applied for orders above 1000 EGP.\n"
-             << RESET;
+            << RESET;
     }
     if (shipping == 0.0)
     {
         cout << YELLOW << "Note:" << RESET << " Free shipping has been applied for orders above 1000 EGP.\n"
-             << RESET;
+            << RESET;
     }
 }

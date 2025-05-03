@@ -2,6 +2,7 @@
 #include <string>
 #include "struct.h"
 #include <conio.h>
+#include "lib/change_exchange.h"
 using namespace std;
 
 // Display menu to edit user information
@@ -20,18 +21,14 @@ int displayMenu()
         cout << endl;
         cout << BOLD << YELLOW << "Enter your choice: " << RESET;
         cin >> choice;
-        if (choice.length() == 1 && isdigit(choice[0]))
+		bool state = changestateExchange(choice, digitchoice);
+        if (digitchoice < 0 || digitchoice > 4 || !state)
         {
-            digitchoice = choice[0] - '0';
-            if (digitchoice >= 0 && digitchoice <= 4)
-                break;
-            else
-                cout << RED << "Invalid choice. Please enter a number between 0 and 4.\n"
+            cout << RED << "Invalid choice. Please enter a number between 0 and 4.\n"
                 << RESET;
+            continue;
         }
-        else
-            cout << RED << "Invalid choice. Please enter a number from the menu.\n"
-            << RESET;
+        break;
     }
     return digitchoice;
 }
@@ -49,9 +46,15 @@ bool editName(CUSTOMER& currentCustomer, CUSTOMER customers[], int numOfCustomer
 
     while (!validName)
     {
-        cout << BOLD << CYAN << "Enter the new name: " << RESET;
+        cout << BOLD << CYAN << "Enter the new name (Press Backspace to cancel): " << RESET;
         cin.clear();
-        getline(cin, name);
+        name = "";
+
+        bool outfunc = returning(name,"editing");
+        if (!outfunc)
+        {
+            return false;
+        }
 
         // Check if username is empty or contains only spaces
         if (name.empty() || name.find_first_not_of(' ') == string::npos)
@@ -120,9 +123,12 @@ bool editPhoneNumber(CUSTOMER& currentCustomer)
 
     while (!validPhone)
     {
-        cout << BOLD << CYAN << "Enter the new phone number: " << RESET;
-        cin.clear();
-        getline(cin, phone);
+        cout << BOLD << CYAN << "Enter the new phone number (Press Backspace to cancel):" << RESET;
+        bool outfunc = returning(phone, "editing");
+        if (!outfunc)
+        {
+            return false;
+        }
 
         // Check if phone number is empty or contains spaces
         if (phone.empty() || phone.find(' ') != string::npos)
@@ -173,9 +179,12 @@ bool editLocation(CUSTOMER& currentCustomer)
 
     while (!validLocation)
     {
-        cout << BOLD << CYAN << "Enter the new location: " << RESET;
-        cin.clear();
-        getline(cin, location);
+        cout << BOLD << CYAN << "Enter the new location (Press Backspace to cancel): " << RESET;
+        bool outfunc = returning(location, "editing");
+        if (!outfunc)
+        {
+            return false;
+        }
 
         if (location.empty() || location.find_first_not_of(' ') == string::npos)
         {
@@ -218,24 +227,11 @@ bool editPassword(CUSTOMER& currentCustomer)
     while (!validPassword)
     {
         cout << BOLD << CYAN << "Enter the new password (Must has at least 8 characters , 1 UPPERCASE , 1 LOWERCASE , 1 SPEICAL CHARACTER): " << RESET;
-        char ch;
         password = "";
-
+        bool outfunc = returning(password, "editing",true);
         // Mask input
-        while ((ch = _getch()) != '\r') // Enter key
-        {
-            if (ch == '\b' && !password.empty())
-            {
-                password.pop_back();
-                cout << "\b \b";
-            }
-            else if (ch != '\b')
-            {
-                password += ch;
-                cout << '*';
-            }
-        }
-        cout << endl;
+        if (!outfunc)
+            return false;
 
         // Check if password is empty
         if (password.empty())
@@ -295,23 +291,11 @@ bool editPassword(CUSTOMER& currentCustomer)
 
         // Confirm password
         string confirmPassword = "";
-        cout << BOLD << CYAN << "Confirm your new password: " << RESET;
+        cout << BOLD << CYAN << "Confirm your new password (Press Backspace to cancel): " << RESET;
 
         // Mask input for confirmation
-        while ((ch = _getch()) != '\r') // Enter key
-        {
-            if (ch == '\b' && !confirmPassword.empty())
-            {
-                confirmPassword.pop_back();
-                cout << "\b \b";
-            }
-            else if (ch != '\b')
-            {
-                confirmPassword += ch;
-                cout << '*';
-            }
-        }
-        cout << endl;
+        if (!returning(confirmPassword, "editing",true))
+            return false;
 
         // Check if passwords match
         if (password != confirmPassword)

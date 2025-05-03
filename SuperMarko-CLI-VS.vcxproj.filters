@@ -45,6 +45,12 @@
     <ClInclude Include="lib\struct.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="lib\display_func.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\change_exchange.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="data\customers.txt">
