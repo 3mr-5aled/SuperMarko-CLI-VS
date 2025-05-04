@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include <limits>
+#include <conio.h> 
 #include "lib/struct.h"
 #include "lib/menu_functions.h"
 #include "lib/registeration.h"
@@ -111,13 +112,9 @@ int main()
 			if (loggedIn)
 			{
 				/*loop(loggedIn, id);*/
-				cout << YELLOW << "Press Enter to continue..." << RESET;
-				cin.ignore(numeric_limits<streamsize>::max(), '\n');
-				char buffer[256];
-				cin.getline(buffer, sizeof(buffer));
+				cout << "Press any key to continue . . .";
+				_getch(); // waits for a key press
 				cout << endl;
-				
-
 
 			}
 		}
