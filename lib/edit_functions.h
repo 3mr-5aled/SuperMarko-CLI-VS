@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <string>
 #include "struct.h"
 #include <conio.h>
@@ -14,11 +14,11 @@ int displayMenu()
     int digitchoice;
     while (true)
     {
-        cout << BOLD << UNDERLINE << CYAN << "What do you want to edit?" << RESET << endl;
-        cout << BOLD << "1. " << RESET << "Name" << endl;
-        cout << BOLD << "2. " << RESET << "Phone Number" << endl;
-        cout << BOLD << "3. " << RESET << "Location" << endl;
-        cout << BOLD << "4. " << RESET << "Password" << endl;
+        cout << BOLD << UNDERLINE << CYAN << "🔧 What do you want to edit?" << RESET << endl;
+        cout << BOLD << "1. 📝 " << RESET << "Name" << endl;
+        cout << BOLD << "2. 📞 " << RESET << "Phone Number" << endl;
+        cout << BOLD << "3. 📍 " << RESET << "Location" << endl;
+        cout << BOLD << "4. 🔑 " << RESET << "Password" << endl;
         cout << BOLD << "0. " << RED << "Cancel" << RESET << endl;
         cout << endl;
         cout << BOLD << YELLOW << "Enter your choice: " << RESET;
@@ -45,7 +45,7 @@ bool editName(CUSTOMER& currentCustomer, CUSTOMER customers[], int numOfCustomer
     cout << BOLD << BLUE << "Current Name: " << RESET << currentCustomer.Name << endl;
     cout << endl;
 
-    cin.ignore();
+
 
     while (!validName)
     {
@@ -99,7 +99,7 @@ bool editPhoneNumber(CUSTOMER& currentCustomer)
     cout << BOLD << BLUE << "Current Phone Number: " << RESET << currentCustomer.PhoneNumber << endl;
     cout << endl;
 
-    cin.ignore();
+
 
     while (!validPhone)
     {
@@ -128,7 +128,6 @@ bool editLocation(CUSTOMER& currentCustomer)
     cout << BOLD << BLUE << "Current Location: " << RESET << currentCustomer.Location << endl;
     cout << endl;
 
-    cin.ignore();
 
     while (!validLocation)
     {
@@ -153,12 +152,12 @@ bool editPassword(CUSTOMER& currentCustomer)
     string password;
     bool validPassword = false;
 
-    cin.ignore();
 
-    cout << BOLD << CYAN << "Enter the new password (Must has at least 8 characters , 1 UPPERCASE , 1 LOWERCASE , 1 SPEICAL CHARACTER): " << RESET << endl;
-    cout << CYAN << "New Password: " << RESET;
+    cout << BOLD << CYAN << "Enter the new password (Must has at least 8 characters , 1 UPPERCASE , 1 LOWERCASE , 1 SPECIAL CHARACTER): " << RESET << endl;
+
     while (!validPassword)
     {
+        cout << CYAN << "New Password: " << RESET;
         password = "";
         char ch;
         while ((ch = _getch()) != '\r') // Enter key
@@ -183,16 +182,28 @@ bool editPassword(CUSTOMER& currentCustomer)
 
         // Confirm password
         string confirmPassword = "";
-        cout << BOLD << "Confirm your new password (Press Backspace to cancel): " << RESET;
-
+        cout << YELLOW << BOLD << "Confirm your new password: " << RESET;
+        ch;
+        while ((ch = _getch()) != '\r') // Enter key
+        {
+            if (ch == '\b' && !confirmPassword.empty())
+            {
+                confirmPassword.pop_back();
+                cout << "\b \b";
+            }
+            else if (ch != '\b')
+            {
+                confirmPassword += ch;
+                cout << '*';
+            }
+        }
         // Mask input for confirmation
-        if (!returning(confirmPassword, "editing", true))
-            return false;
+
 
         // Check if passwords match
         if (password != confirmPassword)
         {
-            cout << RED << "Passwords do not match!" << RESET << endl;
+            cout << RED << "\nPasswords do not match!" << RESET << endl;
             continue;
         }
 
@@ -307,7 +318,10 @@ void editUserInformation(CUSTOMER customers[], int id, int numOfCustomers)
                     cout << RED << BOLD << "Error: " << RESET << "Invalid input. Please enter y or n." << endl;
                 }
             } while (editMore != "y" && editMore != "Y" && editMore != "n" && editMore != "N");
-        }
+		}
+		else
+		{
+			cout << RED << BOLD << "Error: " << RESET << "No changes have been made." << endl;
     }
 
     cout << endl;

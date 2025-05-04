@@ -169,28 +169,29 @@ void ReviewOrder(ORDER order[numOfCustomers], int& id)
 {
     if (order[id - 1].productcount == 0)
     {
-        cout << RED << "You have no items in your order to review.\n"
-            << RESET;
+        cout << RED << "You have no items in your order to review.\n" << RESET;
         return;
     }
 
     cout << "\n";
-    cout << "|                                ORDER CHEQUE                                 |\n";
+    cout << BOLD << CYAN << "| 🧾                               ORDER CHEQUE                                 🧾 |" << RESET << "\n";
     cout << "\n";
-    cout << "|  No.  |     Product Name     |  Quantity  | Unit Price |   Price   |\n";
-    cout << "-------------------------------------------------------------------------------\n";
+    cout << BOLD << YELLOW << "|  No.  |     Product Name     |  Quantity  | Unit Price |   Price   |" << RESET << "\n";
+    cout << BOLD << YELLOW << "-------------------------------------------------------------------------------" << RESET << "\n";
 
     for (int i = 0; i < order[id - 1].productcount; i++)
     {
-        cout << "|  " << setw(4) << i + 1 << " | ";
-        cout << setw(20) << order[id - 1].Products[i].Name << " | ";
-        cout << setw(10) << order[id - 1].Amount[i] << " | ";
-        cout << setw(10) << fixed << setprecision(2) << order[id - 1].Products[i].BasePrice << " | ";
-        cout << setw(8) << fixed << setprecision(2) << order[id - 1].Products[i].Price << " |\n";
+        cout << YELLOW << "|  " << setw(4) << i + 1 << " | " << RESET;
+        cout << CYAN << setw(20) << order[id - 1].Products[i].Name << RESET << " | ";
+        cout << GREEN << setw(10) << order[id - 1].Amount[i] << RESET << " | ";
+        cout << TEAL << setw(10) << fixed << setprecision(2) << order[id - 1].Products[i].BasePrice << RESET << " | ";
+        cout << ORANGE << setw(8) << fixed << setprecision(2) << order[id - 1].Products[i].Price << RESET << " |\n";
     }
-    cout << "-------------------------------------------------------------------------------\n";
-    cout << "TOTAL: " << fixed << setprecision(2) << order[id - 1].TotalPrice << " EGP\n";
+
+    cout << BOLD << "-------------------------------------------------------------------------------" << RESET << "\n";
+    cout << BOLD << "TOTAL: " << RESET << GREEN << fixed << setprecision(2) << order[id - 1].TotalPrice << " EGP" << RESET << "\n";
 }
+
 
 void ModifyOrder(ORDER order[numOfCustomers], int& id)
 {
@@ -420,12 +421,12 @@ void DisplayOrderWithVAT(ORDER order[numOfCustomers], int& id)
     cout << "| " << setw(35) << left << "Total (After VAT):"
         << GREEN << setw(20) << right << fixed << setprecision(2) << orderWithVAT.TotalPrice << " EGP " << RESET << "|\n";
     cout << " --------------------------------------------------------------------------- \n";
-	cout << YELLOW << "Note:" << RESET << " The total price includes a VAT of 14%.\n"
-		<< RESET;
-	cout << YELLOW << "Note:" << RESET << " The discount is applied for orders above 1000 EGP.\n"
-		<< RESET;
-	cout << YELLOW << "Note:" << RESET << " The shipping cost is free for orders above 1000 EGP.\n"
-		<< RESET;
+    cout << YELLOW << "Note:" << RESET << " The total price includes a VAT of 14%.\n"
+        << RESET;
+    cout << YELLOW << "Note:" << RESET << " The discount is applied for orders above 1000 EGP.\n"
+        << RESET;
+    cout << YELLOW << "Note:" << RESET << " The shipping cost is free for orders above 1000 EGP.\n"
+        << RESET;
 
 
     if (discount > 0.0)

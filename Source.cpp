@@ -68,8 +68,7 @@ int main()
 			<< endl;
 		bool back;
 		int flag = 1;
-		menu_logging_in(customers, numOfCustomers, myfile, id,flag,back);
-
+		menu_logging_in(customers, numOfCustomers, myfile, id, flag, back);
 		if (!flag)
 		{
 			exitProgram = true;

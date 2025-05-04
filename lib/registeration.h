@@ -65,7 +65,7 @@ bool registerUser(CUSTOMER customers[], const int numerofcustomers, fstream& myf
         }
     }
 
-    cout << CYAN << "Enter your Password (Must has at least 8 characters , 1 UPPERCASE , 1 LOWERCASE , 1 SPEICAL CHARACTER) " << RESET << endl;
+    cout << CYAN << "Enter your Password (Must has at least 8 characters , 1 UPPERCASE , 1 LOWERCASE , 1 SPECIAL CHARACTER) " << RESET << endl;
     while (!validPassword)
     {
         cout << CYAN << "Password: " << RESET;
@@ -95,6 +95,7 @@ bool registerUser(CUSTOMER customers[], const int numerofcustomers, fstream& myf
     customers[index].ID = index + 1;
     cout << endl;
     cout << GREEN << "Registered: User created successfully" << RESET << endl;
+    cout << GREEN << "Hello " << customers[index].Name << endl;
 
     myfile.clear();
     myfile.seekp(0, ios::end);
@@ -148,7 +149,9 @@ int loginUser(CUSTOMER customers[], const int numerofcustomers, bool& back)
             {
                 if (username == customers[i].Name && password == customers[i].Password)
                 {
-                    cout << GREEN << "Login: Authentication successful" << RESET << endl;
+                    cout << GREEN << "✅ Login: Authentication successful!" << RESET << endl;
+                    cout << BOLD << YELLOW << "\n🌟✨ Hello, " << username << "! ✨🌟" << RESET << endl;
+                    cout << CYAN << "Welcome back! Let's get started. 🚀" << RESET << endl;
                     index = i;
                     found = true;
                     break;
@@ -183,11 +186,11 @@ void menu_logging_in(CUSTOMER customers[], const int numerofcustomers, fstream& 
     bool upd;
     while (true)
     {
-        cout << YELLOW << "Do you want to register or login?" << RESET << endl;
-        cout << "1. Register" << endl;
-        cout << "2. Login" << endl;
-        cout << "3. Credits" << endl;
-        cout << "0. Exit The Program" << endl;
+        cout << YELLOW << "🧑‍💻 Do you want to register or login?" << RESET << endl;
+        cout << "1. 📝 Register" << endl;
+        cout << "2. 🔐 Login" << endl;
+        cout << "3. 👨‍👩‍👧‍👦 Credits" << endl;
+        cout << "0. ❌ Exit The Program" << endl;
         cout << CYAN << "Enter your choice: " << RESET;
 
         cin >> input;

@@ -1,4 +1,4 @@
-#include "struct.h"
+﻿#include "struct.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -15,7 +15,7 @@ int bigmenu()
 	while (true)
 	{
 		cout << "\n";
-		cout << BOLD;
+		cout << BOLD<<BLINK;
 		cout << "            =============================================\n";
 		cout << "                        # WELCOME TO OUR SYSTEM #        \n";
 		cout << "            =============================================\n";
@@ -23,12 +23,12 @@ int bigmenu()
 
 		cout << "\n";
 		cout << "\n";
-		cout << CYAN << "*  Press (1) to edit your information.                                   *\n";
-		cout << "*  Press (2) to view your product menu.                                  *\n";
-		cout << "*  Press (3) to review your order.                                       *\n";
-		cout << "*  Press (4) to modify your order.                                       *\n";
-		cout << "*  Press (5) to view your total price.                                   *\n";
-		cout << "*  Press (0) to log out.                                                 *\n";
+		cout << CYAN << "*  👤 Press (1) to edit your information.                                   *\n";
+		cout << "*  🛍️ Press (2) to view your product menu.                                  *\n";
+		cout << "*  🧾 Press (3) to review your order.                                       *\n";
+		cout << "*  🛠️ Press (4) to modify your order.                                       *\n";
+		cout << "*  💰 Press (5) to view your total price.                                   *\n";
+		cout << "*  🚪 Press (0) to log out.                                                 *\n";
 		cout << RESET << "\n";
 		cout << "\n";
 		cout << YELLOW << "Please enter the number you want to choose from the above list (1-5): " << RESET;
@@ -63,18 +63,18 @@ void Categories(PRODUCT product[numOfCategories][numOfProducts], int& id, const 
 	{
 		bool returnToCategoryMenu = false;
 		cout << endl;
-		cout << BOLD << BLUE << "\n========= SUPERMARKET CATEGORIES =========\n"
+		cout << BOLD << BLUE << "\n========= 🛒 SUPERMARKET CATEGORIES =========\n"
 			<< RESET;
-		cout << GREEN << "1.  Fresh Produce (fruits)\n";
-		cout << "2.  Fresh Produce (vegetable)\n";
-		cout << "3.  Dairy & Eggs\n";
-		cout << "4.  Butcher Shop\n";
-		cout << "5.  Seafood\n";
-		cout << "6.  Poultry\n";
-		cout << "7.  Bakery & Bread\n";
-		cout << "8.  Snacks & Sweets\n";
-		cout << "9.  Household & Cleaning Supplies\n";
-		cout << "10. Pet Supplies\n";
+		cout << GREEN << "1.  🍎 Fresh Produce (fruits)\n";
+		cout << "2.  🥦 Fresh Produce (vegetable)\n";
+		cout << "3.  🥚 Dairy & Eggs\n";
+		cout << "4.  🥩 Butcher Shop\n";
+		cout << "5.  🐟 Seafood\n";
+		cout << "6.  🍗 Poultry\n";
+		cout << "7.  🍞 Bakery & Bread\n";
+		cout << "8.  🍬 Snacks & Sweets\n";
+		cout << "9.  🧹 Household & Cleaning Supplies\n";
+		cout << "10. 🐾 Pet Supplies\n";
 		cout << "0. Return to big menu.\n"
 			<< RESET;
 		cout << BOLD << BLUE << "===========================================\n"
