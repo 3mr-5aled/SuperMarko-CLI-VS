@@ -23,12 +23,11 @@ int displayMenu()
         cout << endl;
         cout << BOLD << YELLOW << "Enter your choice: " << RESET;
         cin >> choice;
-        cin.ignore();
-        bool state = changestateExchange(choice, digitchoice);
+		bool state = changestateExchange(choice, digitchoice);
         if (digitchoice < 0 || digitchoice > 4 || !state)
         {
             cout << RED << "Invalid choice. Please enter a number between 0 and 4."
-                << RESET << endl;
+                << RESET<<endl;
             continue;
         }
         break;
@@ -71,7 +70,7 @@ bool editName(CUSTOMER& currentCustomer, CUSTOMER customers[], int numOfCustomer
                 {
                     if (customers[i].Name == name)
                     {
-                        cout << RED << "Username already exists! Please choose another one." << RESET << endl;
+                        cout << RED << "Username already exists! Please choose another one." << RESET<<endl;
                         usernameExists = true;
                         break;
                     }
@@ -85,7 +84,7 @@ bool editName(CUSTOMER& currentCustomer, CUSTOMER customers[], int numOfCustomer
             }
         }
     }
-
+    
 
     return true;
 }
@@ -110,7 +109,7 @@ bool editPhoneNumber(CUSTOMER& currentCustomer)
             return false;
         }
 
-        validPhone = validatePhone(phone, currentCustomer.PhoneNumber);
+		validPhone = validatePhone(phone, currentCustomer.PhoneNumber);
         if (validPhone) {
             currentCustomer.PhoneNumber = phone;
         }
@@ -139,7 +138,7 @@ bool editLocation(CUSTOMER& currentCustomer)
         }
         validLocation = validateLocation(location, currentCustomer.Location);
         if (validLocation) {
-            currentCustomer.Location = location;
+			currentCustomer.Location = location;
         }
     }
 
@@ -153,8 +152,13 @@ bool editPassword(CUSTOMER& currentCustomer)
     bool validPassword = false;
 
 
+<<<<<<< HEAD
     cout << BOLD << CYAN << "Enter the new password (Must has at least 8 characters , 1 UPPERCASE , 1 LOWERCASE , 1 SPECIAL CHARACTER): " << RESET << endl;
 
+=======
+    cout << BOLD << CYAN << "Enter the new password (Must has at least 8 characters , 1 UPPERCASE , 1 LOWERCASE , 1 SPEICAL CHARACTER): " << RESET << endl;
+    cout << CYAN << "New Password: " << RESET ;
+>>>>>>> parent of 28c50ef (here)
     while (!validPassword)
     {
         cout << CYAN << "New Password: " << RESET;
@@ -175,7 +179,7 @@ bool editPassword(CUSTOMER& currentCustomer)
         }
         cout << endl;
 
-        validPassword = validatePassword(password);
+		validPassword = validatePassword(password);
         if (!validPassword) {
             continue;
         }
@@ -198,12 +202,21 @@ bool editPassword(CUSTOMER& currentCustomer)
             }
         }
         // Mask input for confirmation
+<<<<<<< HEAD
 
+=======
+        if (!returning(confirmPassword, "editing",true))
+            return false;
+>>>>>>> parent of 28c50ef (here)
 
         // Check if passwords match
         if (password != confirmPassword)
         {
+<<<<<<< HEAD
             cout << RED << "\nPasswords do not match!" << RESET << endl;
+=======
+            cout << RED << "Passwords do not match!" << RESET<<endl;
+>>>>>>> parent of 28c50ef (here)
             continue;
         }
 
@@ -304,7 +317,6 @@ void editUserInformation(CUSTOMER customers[], int id, int numOfCustomers)
             {
                 cout << BOLD << CYAN << "Do you want to edit another data? (y/n): " << RESET;
                 cin >> editMore;
-                cin.ignore();
                 if (editMore == "n" || editMore == "N")
                 {
                     continueEditing = false;

@@ -14,40 +14,41 @@ const int numOfCustomers = 10;
 // date structure
 struct DATE
 {
-    int Day = 0;
-    int Month = 0;
-    int Year = 0;
+    int Day;
+    int Month;
+    int Year;
 };
 
 // customer structure
 struct CUSTOMER
 {
-    int ID = 0;
-    string Name = "";
-    string PhoneNumber = "";
-    string Location = "";
-    string Password = "";
+    // ID of the customer is same as it's index in the array
+    int ID;
+    string Name;
+    string PhoneNumber;
+    string Location;
+    string Password;
 } customers[numOfCustomers];
 
 // product structure
 struct PRODUCT
 {
-    string Code = "";
-    string Name = "";
-    string Category = "";
-    DATE ProductionDate = {};
-    DATE ExpiredDate = {};
-    double Price = 0.0;
-    double BasePrice = 0.0;
+    string Code;
+    string Name;
+    string Category;
+    DATE ProductionDate;
+    DATE ExpiredDate;
+    double Price;
+    double BasePrice;
 } product[numOfCategories][numOfProducts];
 
 // order structure
 struct ORDER
 {
-    int CustomerID = 0;
-    PRODUCT Products[numOfProducts] = {};
-    double TotalPrice = 0.0;
-    double Amount[numOfProducts] = {};
+    int CustomerID;
+    PRODUCT Products[numOfProducts];
+    double TotalPrice;
+    double Amount[numOfProducts];
     int productcount = 0;
 } order[numOfCustomers];
 
@@ -55,16 +56,15 @@ struct ORDER
 const string RESET = "\033[0m";
 const string BOLD = "\033[1m";
 const string UNDERLINE = "\033[4m";
-const string RED = "\033[91m";
-const string GREEN = "\033[92m";
-const string YELLOW = "\033[93m";
-const string BLUE = "\033[94m";
-const string CYAN = "\033[96m";
-const string PURPLE = "\033[95m";
-const string WHITE_BG = "\033[107m";
-const string BLACK_TEXT = "\033[90m";
-const string ORANGE = "\033[38;5;214m";
-const string TEAL = "\033[36m";
+const string RED = "\033[91m";          // Bright red
+const string GREEN = "\033[92m";        // Bright green
+const string YELLOW = "\033[93m";       // Bright yellow
+const string BLUE = "\033[94m";         // Bright blue
+const string CYAN = "\033[96m";         // Bright cyan
+const string PURPLE = "\033[95m";       // Bright magenta
+const string WHITE_BG = "\033[107m";    // Bright white background
+const string BLACK_TEXT = "\033[90m";   // Bright black (gray) text
+const string ORANGE = "\033[38;5;214m"; // Bright orange
+const string TEAL = "\033[36m";         // Teal color
 const string BLINK = "\033[5m";
-
 #endif // STRUCT_H

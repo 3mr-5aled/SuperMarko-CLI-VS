@@ -37,21 +37,23 @@ bool registerUser(CUSTOMER customers[], const int numerofcustomers, fstream& myf
     while (!validName)
     {
         cout << CYAN << "Enter your username (Press Backspace to cancel): " << RESET;
-        bool outfunc = returning(name, "register");
+		bool outfunc = returning(name,"register");
         if (!outfunc)
         {
             return false;
         }
 
+        // Check if username already exists in any customer record
         bool usernameExists = false;
         for (int i = 0; i < numerofcustomers; i++)
         {
+            // Check against all existing users, regardless of their ID
             if (!customers[i].Name.empty() && customers[i].ID != 0)
             {
                 if (customers[i].Name == name)
                 {
                     cout << RED << "Username already exists! Please choose another one."
-                        << RESET << endl;
+                         << RESET<<endl;
                     usernameExists = true;
                     break;
                 }
@@ -64,30 +66,40 @@ bool registerUser(CUSTOMER customers[], const int numerofcustomers, fstream& myf
             customers[index].Name = name;
         }
     }
+<<<<<<< HEAD
 
     cout << CYAN << "Enter your Password (Must has at least 8 characters , 1 UPPERCASE , 1 LOWERCASE , 1 SPECIAL CHARACTER) " << RESET << endl;
+=======
+    
+    cout << CYAN << "Enter your Password (Must has at least 8 characters , 1 UPPERCASE , 1 LOWERCASE , 1 SPEICAL CHARACTER) "<< RESET << endl;
+>>>>>>> parent of 28c50ef (here)
     while (!validPassword)
     {
         cout << CYAN << "Password: " << RESET;
         cin >> password;
-        cin.ignore();
-        validPassword = validatePassword(password);
+        
+		
+		validPassword = validatePassword(password);    
         customers[index].Password = password;
     }
+
 
     while (!validPhone)
     {
         cout << CYAN << "Enter your phone number: " << RESET;
+        cin.clear();
         cin >> phone;
-        cin.ignore();
+
         validPhone = validatePhone(phone);
         customers[index].PhoneNumber = phone;
     }
 
+    cin.ignore();
     while (!validLocation)
     {
         cout << CYAN << "Enter your location: " << RESET;
         getline(cin, location);
+
         validLocation = validateLocation(location);
         customers[index].Location = location;
     }
@@ -97,18 +109,19 @@ bool registerUser(CUSTOMER customers[], const int numerofcustomers, fstream& myf
     cout << GREEN << "Registered: User created successfully" << RESET << endl;
     cout << GREEN << "Hello " << customers[index].Name << endl;
 
+    // Move to end to append
     myfile.clear();
     myfile.seekp(0, ios::end);
     myfile << customers[index].ID << '\n'
-        << customers[index].Name << '\n'
-        << customers[index].PhoneNumber << '\n'
-        << customers[index].Location << '\n'
-        << customers[index].Password << '\n';
-
+           << customers[index].Name << '\n'
+           << customers[index].PhoneNumber << '\n'
+           << customers[index].Location << '\n'
+           << customers[index].Password << '\n';
+    
     return true;
 }
 
-int loginUser(CUSTOMER customers[], const int numerofcustomers, bool& back)
+int loginUser(CUSTOMER customers[], const int numerofcustomers,bool &back)
 {
     string username, password;
     int attempts = 3, index = 0;
@@ -118,7 +131,7 @@ int loginUser(CUSTOMER customers[], const int numerofcustomers, bool& back)
     {
         cout << endl;
         cout << CYAN << "Enter your username (Press Backspace to cancel): " << RESET;
-        bool outfunc = returning(username, "login");
+        bool outfunc = returning(username,"login");
         if (!outfunc)
         {
             back = true;

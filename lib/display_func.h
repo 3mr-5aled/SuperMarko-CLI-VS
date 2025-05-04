@@ -1,4 +1,4 @@
-﻿
+﻿#pragma once
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -55,10 +55,10 @@ void display_message_Error() {
 void loop(bool& loggedIn, int& id) {
 	while (true)
 	{
+
 		string choice;
 		cout << YELLOW << "Do you want another operation from the program? (y/n): " << RESET;
 		cin >> choice;
-		cin.ignore();
 		if (choice == "y" || choice == "Y")
 			break;
 		else if (choice == "n" || choice == "N")

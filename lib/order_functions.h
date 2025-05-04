@@ -18,7 +18,8 @@ bool addProducts(ORDER order[numOfCustomers], PRODUCT product[numOfCategories][n
 
     if (i >= 10)
     {
-        cout << RED << "Maximum limit of 10 products reached. Cannot add more products.\n" << RESET;
+        cout << RED << "Maximum limit of 10 products reached. Cannot add more products.\n"
+            << RESET;
         return false;
     }
     answerofproduct = "y";
@@ -26,14 +27,18 @@ bool addProducts(ORDER order[numOfCustomers], PRODUCT product[numOfCategories][n
     {
         if (i >= 10)
         {
-            cout << RED << "Maximum limit of 10 products reached. Cannot add more products.\n" << RESET;
+            cout << RED << "Maximum limit of 10 products reached. Cannot add more products.\n"
+                << RESET;
             return false;
         }
 
-        cout << YELLOW << "Please choose a product by entering a number between 1 and 10.\n" << RESET;
-        cout << YELLOW << "Enter 0 to return to categories.\n" << RESET;
+        cout << YELLOW << "Please choose a product by entering a number between 1 and 10.\n"
+            << RESET;
+        cout << YELLOW << "Enter 0 to return to categories.\n"
+            << RESET;
         cin >> productInput;
-        cin.ignore();
+
+        
 
         if (!changestateExchange(productInput, number)) {
             cout << RED << "Invalid input. Please enter a number.\n" << RESET;
@@ -41,25 +46,29 @@ bool addProducts(ORDER order[numOfCustomers], PRODUCT product[numOfCategories][n
         }
         if (number == 0)
         {
-            cout << BLUE << "Returning to category menu...\n" << RESET;
+            cout << BLUE << "Returning to category menu...\n"
+                << RESET;
             returnToCategoryMenu = true;
             break;
         }
 
         if (!(number >= 1 && number <= 10))
         {
-            cout << RED << "Invalid input. Please enter a valid number.\n" << RESET;
+            cout << RED << "Invalid input. Please enter a valid number.\n"
+                << RESET;
             answerofproduct = "y";
             continue;
         }
 
+        // Store the product name for better user experience
         string productName = product[CategoryCase - 1][number - 1].Name;
 
-        cout << YELLOW << "How many amount of " << CYAN << productName << YELLOW << " do you want? (enter 0 to cancel)\n" << RESET;
+        cout << YELLOW << "How many amount of " << CYAN << productName << YELLOW << " do you want? (enter 0 to cancel)\n"
+            << RESET;
         cin >> amount;
-        cin.ignore();
         changestateExchange(amount, amounts);
 
+        // Check if the input is a valid number
         bool isValid = true;
         for (char c : amount)
         {
@@ -75,25 +84,29 @@ bool addProducts(ORDER order[numOfCustomers], PRODUCT product[numOfCategories][n
             amounts = stoi(amount);
             if (amounts > 10)
             {
-                cout << ORANGE << "Please head to Supplier\n" << RESET;
+                cout << ORANGE << "Please head to Supplier\n"
+                    << RESET;
                 answerofproduct = "y";
                 continue;
             }
         }
         else
         {
-            cout << RED << "Invalid input. Please enter a valid number.\n" << RESET;
+            cout << RED << "Invalid input. Please enter a valid number.\n"
+                << RESET;
             answerofproduct = "y";
             continue;
         }
 
+        // Cancel add if amount is zero
         if (amounts == 0)
         {
-            cout << RED << "Canceled adding product.\n" << RESET;
+            cout << RED << "Canceled adding product.\n"
+                << RESET;
             answerofproduct = "y";
             continue;
         }
-
+        // Check if product already exists in order
         bool productExists = false;
         int existingIndex = -1;
         for (int j = 0; j < order[id - 1].productcount; j++)
@@ -108,26 +121,32 @@ bool addProducts(ORDER order[numOfCustomers], PRODUCT product[numOfCategories][n
 
         if (productExists)
         {
+            // Cancel if amount is zero for existing products
             if (amounts == 0)
             {
-                cout << RED << "Canceled updating product.\n" << RESET;
+                cout << RED << "Canceled updating product.\n"
+                    << RESET;
                 answerofproduct = "y";
                 continue;
             }
 
             if (amounts < 1 || amounts > 10)
             {
-                cout << RED << "Invalid quantity. Please enter a number between 1 and 10.\n" << RESET;
+                cout << RED << "Invalid quantity. Please enter a number between 1 and 10.\n"
+                    << RESET;
                 answerofproduct = "y";
                 continue;
             }
             if (order[id - 1].Amount[existingIndex] + amounts > 10)
             {
-                cout << ORANGE << "Maximum amount for each customer is 10. You currently have " << order[id - 1].Amount[existingIndex] << ".\n" << RESET;
+                cout << ORANGE << "Maximum amount for each customer is 10. You currently have "
+                    << order[id - 1].Amount[existingIndex] << ".\n"
+                    << RESET;
                 answerofproduct = "y";
                 continue;
             }
 
+            // Update existing product quantity and price
             order[id - 1].TotalPrice -= order[id - 1].Products[existingIndex].Price;
             order[id - 1].Amount[existingIndex] += amounts;
             order[id - 1].Products[existingIndex].Price = order[id - 1].Amount[existingIndex] * product[CategoryCase - 1][number - 1].Price;
@@ -136,25 +155,25 @@ bool addProducts(ORDER order[numOfCustomers], PRODUCT product[numOfCategories][n
         }
         else
         {
+            // Add new product
             order[id - 1].Amount[i] = amounts;
             order[id - 1].Products[i] = product[CategoryCase - 1][number - 1];
             order[id - 1].Products[i].BasePrice = product[CategoryCase - 1][number - 1].Price;
-            order[id - 1].Products[i].Price = product[CategoryCase - 1][number - 1].Price * order[id - 1].Amount[i];
+            order[id - 1].Products[i].Price = (product[CategoryCase - 1][number - 1].Price) * (order[id - 1].Amount[i]);
             order[id - 1].TotalPrice += order[id - 1].Products[i].Price;
             order[id - 1].productcount++;
             cout << GREEN << "Added: " << order[id - 1].Products[i].Name << " x" << amounts << RESET << endl;
             i++;
         }
 
-        cout << GREEN << "Do you want to choose another product from current category? (y/n)" << RESET << endl;
+        cout << GREEN << "Do you want to choose another product from current category? (y/n)" << RESET<<endl;
         cin >> answerofproduct;
-        cin.ignore();
 
+        // Validate input
         while (answerofproduct != "y" && answerofproduct != "Y" && answerofproduct != "n" && answerofproduct != "N") {
             cout << RED << "Invalid input. Please enter 'y' or 'n'.\n" << RESET;
             cout << GREEN << "Do you want to choose another product from current category? (y/n): " << RESET;
             cin >> answerofproduct;
-            cin.ignore();
         }
 
         if (answerofproduct == "n" || answerofproduct == "N") {
