@@ -2,6 +2,9 @@
 #include "struct.h"
 #include <conio.h>
 #include "lib/change_exchange.h"
+#include "validation_functions.h"
+
+
 using namespace std;
 
 int loginUser(CUSTOMER customers[], const int numerofcustomers,bool & back);
@@ -39,29 +42,6 @@ bool registerUser(CUSTOMER customers[], const int numerofcustomers, fstream &myf
             return false;
         }
 
-        // Check if username is empty or contains only spaces
-        if (name.empty() || name.find_first_not_of(' ') == string::npos)
-        {
-            cout << RED << "Username cannot be empty!" << RESET<<endl;
-        }
-        else if (name.length() < 3 || name.length() > 20)
-        {
-            cout << RED << "Username must be between 3 and 20 characters." << RESET<<endl;
-        }
-        else if (name.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._") != string::npos)
-        {
-            cout << RED << "Username can only contain letters, numbers, dots (.), and underscores (_)." << RESET<<endl;
-        }
-        else if (name.front() == '.' || name.front() == '_' || name.back() == '.' || name.back() == '_')
-        {
-            cout << RED << "Username cannot start or end with '.' or '_'." << RESET<<endl;
-        }
-        else if (name.find("..") != string::npos || name.find("__") != string::npos)
-        {
-            cout << RED << "Username cannot contain consecutive '.' or '_'." << RESET<<endl;
-        }
-
-
         // Check if username already exists in any customer record
         bool usernameExists = false;
         for (int i = 0; i < numerofcustomers; i++)
@@ -79,71 +59,21 @@ bool registerUser(CUSTOMER customers[], const int numerofcustomers, fstream &myf
             }
         }
 
-        if (!usernameExists)
+        if (!usernameExists && validateUsername(name))
         {
             validName = true;
             customers[index].Name = name;
         }
     }
     
+    cout << CYAN << "Enter your Password (Must has at least 8 characters , 1 UPPERCASE , 1 LOWERCASE , 1 SPEICAL CHARACTER) "<< RESET << endl;
     while (!validPassword)
     {
-        cout << CYAN << "Enter your Password (Must has at least 8 characters , 1 UPPERCASE , 1 LOWERCASE , 1 SPEICAL CHARACTER) "<<endl<<"Password: " << RESET;
+        cout << CYAN << "Password: " << RESET;
         cin >> password;
         
 		
-
-        // Check if password is empty
-        if (password.empty())
-        {
-            cout << RED << "Password cannot be empty!" << RESET<<endl;
-            continue;
-        }
-
-        // Check if password contains spaces
-        if (password.find(' ') != string::npos)
-        {
-            cout << RED << "Password cannot contain spaces!" << RESET<<endl;
-            continue;
-        }
-
-        // Check if password is at least 8 characters long
-        if (password.size() < 8)
-        {
-            cout << RED << "Password must be at least 8 characters long!" << RESET<<endl;
-            continue;
-        }
-
-        // Check if password contains at least one uppercase letter
-        if (password.find_first_of("ABCDEFGHIJKLMNOPQRSTUVWXYZ") == string::npos)
-        {
-            cout << RED << "Password must contain at least one uppercase letter!" << RESET<<endl;
-            continue;
-        }
-
-        // Check if password contains at least one lowercase letter
-        if (password.find_first_of("abcdefghijklmnopqrstuvwxyz") == string::npos)
-        {
-            cout << RED << "Password must contain at least one lowercase letter!" << RESET<<endl;
-            continue;
-        }
-
-        // Check if password contains at least one numeric digit
-        if (password.find_first_of("0123456789") == string::npos)
-        {
-            cout << RED << "Password must contain at least one number!" << RESET<<endl;
-            continue;
-        }
-
-        // Check if password contains at least one special character
-        if (password.find_first_of("!@#$%^&*()-_=+[]{}|;:'\",.<>?/") == string::npos)
-        {
-            cout << RED << "Password must contain at least one special character!" << RESET<<endl;
-            continue;
-        }
-
-        // If all validations pass
-        validPassword = true;
+		validPassword = validatePassword(password);    
         customers[index].Password = password;
     }
 
@@ -154,29 +84,7 @@ bool registerUser(CUSTOMER customers[], const int numerofcustomers, fstream &myf
         cin.clear();
         cin >> phone;
 
-        // Check if phone number is empty or contains only spaces
-        if (phone.empty() || phone.find(' ') != string::npos)
-        {
-            cout << RED << "Phone number cannot be empty!" << RESET<<endl;
-            continue;
-        }
-
-        // Check if phone number is exactly 11 digits and contains only numbers
-        if (phone.length() != 11 || phone.find_first_not_of("0123456789") != string::npos)
-        {
-            cout << RED << "Phone number must be 11 digits long and contain only numbers." << RESET<<endl;
-            continue;
-        }
-
-        // Check if phone number starts with valid Egyptian prefixes
-        if (phone.substr(0, 3) != "010" && phone.substr(0, 3) != "011" && phone.substr(0, 3) != "012" && phone.substr(0, 3) != "015")
-        {
-            cout << RED << "Invalid phone number prefix. Egyptian phone numbers must start with 010, 011, 012, or 015." << RESET<<endl;
-            continue;
-        }
-
-        // If all validations pass, it's a valid phone number
-        validPhone = true;
+        validPhone = validatePhone(phone);
         customers[index].PhoneNumber = phone;
     }
 
@@ -185,31 +93,9 @@ bool registerUser(CUSTOMER customers[], const int numerofcustomers, fstream &myf
     {
         cout << CYAN << "Enter your location: " << RESET;
         getline(cin, location);
-        if (location.empty() || location.find_first_not_of(' ') == string::npos)
-        {
-            cout << RED << "Location cannot be empty!"
-                 << RESET<<endl;
-        }
-        else if (location.length() < 5)
-        {
-            cout << RED << "Location must be at least 5 characters long."
-                 << RESET<<endl;
-        }
-        else if (location.length() > 100)
-        {
-            cout << RED << "Location cannot exceed 100 characters."
-                 << RESET<<endl;
-        }
-        else if (location.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .-") != string::npos)
-        {
-            cout << RED << "Location contains invalid characters. Only letters, numbers, spaces, periods, and hyphens are allowed."
-                 << RESET<<endl;
-        }
-        else
-        {
-            validLocation = true;
-            customers[index].Location = location;
-        }
+
+        validLocation = validateLocation(location);
+        customers[index].Location = location;
     }
     id = index + 1;
     customers[index].ID = index + 1;

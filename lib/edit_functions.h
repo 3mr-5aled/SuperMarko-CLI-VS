@@ -3,6 +3,8 @@
 #include "struct.h"
 #include <conio.h>
 #include "lib/change_exchange.h"
+#include "validation_functions.h"
+
 using namespace std;
 
 // Display menu to edit user information
@@ -186,31 +188,14 @@ bool editLocation(CUSTOMER& currentCustomer)
             return false;
         }
 
-        if (location.empty() || location.find_first_not_of(' ') == string::npos)
-        {
-            cout << RED << "Location cannot be empty!" << RESET<<endl;
-        }
-        else if (location.length() < 5)
-        {
-            cout << RED << "Location must be at least 5 characters long." << RESET<<endl;
-        }
-        else if (location.length() > 100)
-        {
-            cout << RED << "Location cannot exceed 100 characters." << RESET<<endl;
-        }
-        else if (location.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .-") != string::npos)
-        {
-            cout << RED << "Location contains invalid characters. Only letters, numbers, spaces, periods, and hyphens are allowed." << RESET<<endl;
-        }
-        else if (location == currentCustomer.Location)
-        {
-            cout << RED << "New location cannot be the same as current location." << RESET<<endl;
-        }
-        else
-        {
-            validLocation = true;
-            currentCustomer.Location = location;
-        }
+		if (validateLocation(location)) {
+			validLocation = true;
+			currentCustomer.Location = location;
+		}
+		else
+		{
+            validLocation = false;
+		}
     }
 
     return true;

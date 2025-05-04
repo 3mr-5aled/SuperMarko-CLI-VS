@@ -139,6 +139,7 @@
     <ClInclude Include="lib\registeration.h" />
     <ClInclude Include="lib\save_functions.h" />
     <ClInclude Include="lib\struct.h" />
+    <ClInclude Include="validation_functions.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="data\customers.txt" />
