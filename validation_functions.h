@@ -115,6 +115,7 @@ bool validatePassword(string password, string current = "1") {
 	return true; // Password is valid
 }
 
+
 bool validatePhone(string phone, string current = "1") {
     // Check if phone number is empty or contains only spaces
     if (phone.empty() || phone.find(' ') != string::npos)
