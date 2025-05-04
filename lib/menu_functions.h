@@ -7,7 +7,7 @@
 using namespace std;
 
 const int NUMBEROFPRODUCT = 10;
-bool addProducts(ORDER order[numOfCustomers], PRODUCT product[numOfCategories][numOfProducts], int &id, int CategoryCase, bool &returnToCategoryMenu);
+bool addProducts(ORDER order[numOfCustomers], PRODUCT product[numOfCategories][numOfProducts], int& id, int CategoryCase, bool& returnToCategoryMenu);
 int bigmenu()
 {
 	string input;
@@ -34,6 +34,7 @@ int bigmenu()
 		cout << YELLOW << "Please enter the number you want to choose from the above list (1-5): " << RESET;
 
 		cin >> input;
+		cin.ignore();
 		bool state = changestateExchange(input, number);
 		if (!state)
 		{
@@ -52,7 +53,7 @@ int bigmenu()
 	return number;
 }
 
-void Categories(PRODUCT product[numOfCategories][numOfProducts], int &id, const int numOfProducts, ORDER order[numOfCustomers])
+void Categories(PRODUCT product[numOfCategories][numOfProducts], int& id, const int numOfProducts, ORDER order[numOfCustomers])
 {
 	int numberofcategory;
 	string choice;
@@ -81,7 +82,8 @@ void Categories(PRODUCT product[numOfCategories][numOfProducts], int &id, const 
 		cout << YELLOW << "Please enter the category number: " << RESET;
 		cin.clear();
 		cin >> input;
-		
+		cin.ignore();
+
 		bool state = changestateExchange(input, numberofcategory);
 
 		if (numberofcategory < 0 || numberofcategory > 10 || !state)
@@ -92,12 +94,12 @@ void Categories(PRODUCT product[numOfCategories][numOfProducts], int &id, const 
 		}
 		else
 			CategoryCases = numberofcategory;
-		
-		
+
+
 		if (numberofcategory > 0 && numberofcategory < 11)
 		{
 			cout << PURPLE << "\n\t\t\t    You selected: " << product[numberofcategory - 1][0].Category << " of category.\n"
-				 << RESET;
+				<< RESET;
 
 			cout << "******************************************************************************************\n";
 			cout << "|                                      PRODUCT LIST                                     |\n";
@@ -114,11 +116,11 @@ void Categories(PRODUCT product[numOfCategories][numOfProducts], int &id, const 
 					cout << left << setw(18) << product[numberofcategory - 1][numberOfProductIndex].Name << " | ";
 					cout << setw(9) << product[numberofcategory - 1][numberOfProductIndex].Code << " |   ";
 					cout << right << setw(2) << setfill('0') << product[numberofcategory - 1][numberOfProductIndex].ProductionDate.Day << "-"
-						 << setw(2) << setfill('0') << product[numberofcategory - 1][numberOfProductIndex].ProductionDate.Month << "-"
-						 << setw(4) << setfill(' ') << product[numberofcategory - 1][numberOfProductIndex].ProductionDate.Year << "    |  ";
+						<< setw(2) << setfill('0') << product[numberofcategory - 1][numberOfProductIndex].ProductionDate.Month << "-"
+						<< setw(4) << setfill(' ') << product[numberofcategory - 1][numberOfProductIndex].ProductionDate.Year << "    |  ";
 					cout << setw(2) << setfill('0') << product[numberofcategory - 1][numberOfProductIndex].ExpiredDate.Day << "-"
-						 << setw(2) << setfill('0') << product[numberofcategory - 1][numberOfProductIndex].ExpiredDate.Month << "-"
-						 << setw(4) << setfill(' ') << product[numberofcategory - 1][numberOfProductIndex].ExpiredDate.Year << "   | ";
+						<< setw(2) << setfill('0') << product[numberofcategory - 1][numberOfProductIndex].ExpiredDate.Month << "-"
+						<< setw(4) << setfill(' ') << product[numberofcategory - 1][numberOfProductIndex].ExpiredDate.Year << "   | ";
 					cout << right << setw(6) << product[numberofcategory - 1][numberOfProductIndex].Price << " EGP |\n";
 					cout << RESET;
 					cout << "------------------------------------------------------------------------------------------\n";
@@ -136,7 +138,7 @@ void Categories(PRODUCT product[numOfCategories][numOfProducts], int &id, const 
 		else
 		{
 			cout << RED << "\nInvalid input, please enter a number between 1 and 10.\n"
-				 << RESET;
+				<< RESET;
 			continue;
 		}
 
@@ -146,19 +148,17 @@ void Categories(PRODUCT product[numOfCategories][numOfProducts], int &id, const 
 		while (true) {
 			cout << GREEN << "Do you want to return back to categories? (y/n): " << RESET;
 			cin >> choice;
+			cin.ignore();
 
 			if (choice == "y" || choice == "Y") {
-				// User wants to return — restart loop
-				break; // or use 'continue;' if inside a larger loop
+				break;
 			}
 			else if (choice == "n" || choice == "N") {
-				// User wants to exit
 				return;
 			}
 			else {
 				cout << RED << "Invalid input. Please enter 'y' or 'n'.\n" << RESET;
 			}
 		}
-
 	}
 }
