@@ -5,7 +5,7 @@
 
 using namespace std;
 
-bool validateUsername(string name) {
+bool validateUsername(string name, string current = "1") {
     bool valid = false;
     // Check if username is empty or contains only spaces
     if (name.empty() || name.find_first_not_of(' ') == string::npos)
@@ -33,6 +33,16 @@ bool validateUsername(string name) {
         cout << RED << "Username cannot contain consecutive '.' or '_'." << RESET << endl;
         valid = false;
     }
+    else if (current != "1") {
+        if (name == current)
+        {
+            cout << RED << "New username cannot be the same as current username." << RESET << endl;
+            valid = false;
+        }
+        else {
+			valid = true; // Username is valid
+        }
+    }
     else
     {
         valid = true; // Username is valid
@@ -41,7 +51,7 @@ bool validateUsername(string name) {
     return valid;
 }
 
-bool validatePassword(string password) {
+bool validatePassword(string password, string current = "1") {
     // Check if password is empty
     if (password.empty())
     {
@@ -91,11 +101,22 @@ bool validatePassword(string password) {
         return false;
     }
 
+	if (current != "1") {
+		if (password == current)
+		{
+			cout << RED << "New password cannot be the same as current password." << RESET << endl;
+			return false;
+		}
+		else {
+			return true; // Password is valid
+		}
+	}
+
 	return true; // Password is valid
 }
 
 
-bool validatePhone(string phone) {
+bool validatePhone(string phone, string current = "1") {
     // Check if phone number is empty or contains only spaces
     if (phone.empty() || phone.find(' ') != string::npos)
     {
@@ -117,10 +138,21 @@ bool validatePhone(string phone) {
         return false;
     }
 
+	if (current != "1") {
+		if (phone == current)
+		{
+			cout << RED << "New phone number cannot be the same as current phone number." << RESET << endl;
+			return false;
+        }
+        else {
+			return true; // Phone number is valid
+        }
+	}
+
 	return true; // Phone number is valid
 }
 
-bool validateLocation(string location) {
+bool validateLocation(string location, string current = "1") {
 	bool valid = false;
     if (location.empty() || location.find_first_not_of(' ') == string::npos)
     {
@@ -146,6 +178,17 @@ bool validateLocation(string location) {
             << RESET << endl;
         valid = false;
     }
+	else if (current != "1") {
+		if (location == current)
+		{
+			cout << RED << "New location cannot be the same as current location."
+				<< RESET << endl;
+			valid = false;
+        }
+        else {
+			valid = true;
+        }
+	}
     else {
 		valid = true;
     }
