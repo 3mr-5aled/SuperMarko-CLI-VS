@@ -1,18 +1,17 @@
-﻿#include "lib/struct.h"
-#include <iostream>
-#include "lib/change_exchange.h"
-#include <fstream>
-#include <string>
-#include <iomanip>
+﻿#include <iostream>
+#include "struct.h"
 #include <conio.h>
+#include "lib/change_exchange.h"
 #include "validation_functions.h"
+
+
 using namespace std;
 
-int loginUser(CUSTOMER customers[], const int numerofcustomers, bool& back);
-bool registerUser(CUSTOMER customers[], const int numerofcustomers, fstream& myfile, int& id);
-void menu_logging_in(CUSTOMER customers[], const int numerofcustomers, fstream& myfile, int& id, int& flag, bool& back);
+int loginUser(CUSTOMER customers[], const int numerofcustomers,bool & back);
+bool registerUser(CUSTOMER customers[], const int numerofcustomers, fstream &myfile, int &id);
+void menu_logging_in(CUSTOMER customers[], const int numerofcustomers, fstream &myfile, int &id,int& flag,bool& back);
 
-bool registerUser(CUSTOMER customers[], const int numerofcustomers, fstream& myfile, int& id)
+bool registerUser(CUSTOMER customers[], const int numerofcustomers, fstream &myfile, int &id)
 {
     bool found = false, validPassword = false, validName = false, validPhone = false, validLocation = false;
     int index = 0;
@@ -30,7 +29,7 @@ bool registerUser(CUSTOMER customers[], const int numerofcustomers, fstream& myf
     if (!found)
     {
         cout << RED << "No empty slot to register."
-            << RESET << endl;
+             << RESET<<endl;
         return false;
     }
 
@@ -133,14 +132,14 @@ int loginUser(CUSTOMER customers[], const int numerofcustomers,bool &back)
         cout << CYAN << "Enter your username (Press Backspace to cancel): " << RESET;
         bool outfunc = returning(username,"login");
         if (!outfunc)
-        {
-            back = true;
+        { 
+			back = true;
             return false;
         }
         cout << CYAN << "Enter your password: " << RESET;
         password = "";
         char ch;
-        while ((ch = _getch()) != '\r')
+        while ((ch = _getch()) != '\r') // Enter key
         {
             if (ch == '\b' && !password.empty())
             {
@@ -154,6 +153,7 @@ int loginUser(CUSTOMER customers[], const int numerofcustomers,bool &back)
             }
         }
         cout << endl;
+        
         cout << endl;
         bool found = false;
         for (int i = 0; i < numerofcustomers; i++)
@@ -183,8 +183,8 @@ int loginUser(CUSTOMER customers[], const int numerofcustomers,bool &back)
                 << RESET << endl;
             else
             {
-                cout << RED << endl << "No attempts left."
-                    << RESET << endl;
+                cout << RED <<endl<< "No attempts left."
+                    << RESET<<endl;
                 return 0;
             }
         }
@@ -192,8 +192,10 @@ int loginUser(CUSTOMER customers[], const int numerofcustomers,bool &back)
     return 0;
 }
 
-void menu_logging_in(CUSTOMER customers[], const int numerofcustomers, fstream& myfile, int& id, int& flag, bool& back)
+
+void menu_logging_in(CUSTOMER customers[], const int numerofcustomers, fstream &myfile, int &id, int& flag, bool &back)
 {
+
     string input;
     int choice;
     bool upd;
@@ -207,18 +209,17 @@ void menu_logging_in(CUSTOMER customers[], const int numerofcustomers, fstream& 
         cout << CYAN << "Enter your choice: " << RESET;
 
         cin >> input;
-        cin.ignore();
 
-        bool state = changestateExchange(input, choice);
-        if (!state || choice < 0 || choice > 3)
-        {
-            cout << RED << "Invalid input. Please enter a number (0, 1, 2 or 3)."
-                << RESET << endl;
-            continue;
-        }
+		bool state = changestateExchange(input, choice);
+		if (!state || choice <0 || choice > 3)
+		{
+			cout << RED << "Invalid input. Please enter a number (0, 1, 2 or 3)."
+				<< RESET<<endl;
+			continue;
+		}
         if (choice == 1)
         {
-            upd = registerUser(customers, numerofcustomers, myfile, id);
+            upd=registerUser(customers, numerofcustomers, myfile, id);
             if (upd)
             {
                 flag = 1;
@@ -229,11 +230,11 @@ void menu_logging_in(CUSTOMER customers[], const int numerofcustomers, fstream& 
         }
         else if (choice == 2)
         {
-            id = loginUser(customers, numerofcustomers, back);
-            if (back)
-            {
+            id = loginUser(customers, numerofcustomers,back);
+			if (back)
+			{
                 continue;
-            }
+			}
             if (id == 0)
             {
                 flag = 0;
@@ -266,17 +267,16 @@ void menu_logging_in(CUSTOMER customers[], const int numerofcustomers, fstream& 
         else
         {
             cout << RED << "Invalid choice. Please enter 0, 1, 2 or 3."
-                << RESET << endl;
+                 << RESET<<endl;
         }
     }
 
     return;
 }
-
 void log_out(int& id, bool& loggedIn) {
-    cout << RED << endl << "Logging out..."
+    cout << RED <<endl <<"Logging out..."
         << RESET << endl;
-    cout << "═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════" << endl;
+    cout << "═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════"<<endl;
     cout << endl;
     id = 0;
     loggedIn = false;
