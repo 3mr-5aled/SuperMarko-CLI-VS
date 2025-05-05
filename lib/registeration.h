@@ -253,6 +253,11 @@ void menu_logging_in(CUSTOMER customers[], const int numerofcustomers, fstream &
 
             cout << BOLD << CYAN << "===============================\n" << RESET << endl;
 
+            cout << "Press any key to continue . . .";
+            _getch(); // waits for a key press
+            cout << endl;
+            cout << endl;
+
         }
         else if (choice == 0)
         {
