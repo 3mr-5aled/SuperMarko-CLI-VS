@@ -56,7 +56,6 @@ bool addProducts(ORDER order[numOfCustomers], PRODUCT product[numOfCategories][n
         {
             cout << RED << "Invalid input. Please enter a valid number.\n"
                 << RESET;
-            answerofproduct = "y";
             continue;
         }
 
@@ -86,7 +85,6 @@ bool addProducts(ORDER order[numOfCustomers], PRODUCT product[numOfCategories][n
             {
                 cout << ORANGE << "Please head to Supplier\n"
                     << RESET;
-                answerofproduct = "y";
                 continue;
             }
         }
@@ -94,7 +92,6 @@ bool addProducts(ORDER order[numOfCustomers], PRODUCT product[numOfCategories][n
         {
             cout << RED << "Invalid input. Please enter a valid number.\n"
                 << RESET;
-            answerofproduct = "y";
             continue;
         }
 
@@ -103,7 +100,6 @@ bool addProducts(ORDER order[numOfCustomers], PRODUCT product[numOfCategories][n
         {
             cout << RED << "Canceled adding product.\n"
                 << RESET;
-            answerofproduct = "y";
             continue;
         }
         // Check if product already exists in order
@@ -126,7 +122,6 @@ bool addProducts(ORDER order[numOfCustomers], PRODUCT product[numOfCategories][n
             {
                 cout << RED << "Canceled updating product.\n"
                     << RESET;
-                answerofproduct = "y";
                 continue;
             }
 
@@ -134,7 +129,6 @@ bool addProducts(ORDER order[numOfCustomers], PRODUCT product[numOfCategories][n
             {
                 cout << RED << "Invalid quantity. Please enter a number between 1 and 10.\n"
                     << RESET;
-                answerofproduct = "y";
                 continue;
             }
             if (order[id - 1].Amount[existingIndex] + amounts > 10)
@@ -142,7 +136,6 @@ bool addProducts(ORDER order[numOfCustomers], PRODUCT product[numOfCategories][n
                 cout << ORANGE << "Maximum amount for each customer is 10. You currently have "
                     << order[id - 1].Amount[existingIndex] << ".\n"
                     << RESET;
-                answerofproduct = "y";
                 continue;
             }
 
@@ -268,7 +261,7 @@ void ModifyOrder(ORDER order[numOfCustomers], int& id)
 
         int ItemIndex = choice - 1;
 
-        string optionInput;
+        
         int option = -1;
         do
         {
@@ -302,7 +295,7 @@ void ModifyOrder(ORDER order[numOfCustomers], int& id)
                 bool isValid = true;
 
                 // Validate input is digits only
-                for (char c : newQuantityInput)
+                for (char c : newQuantityInput) // for(int i = 0 ; i < amount.length ;i++)
                 {
                     if (!isdigit(c))
                     {

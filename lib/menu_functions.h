@@ -148,7 +148,7 @@ void Categories(PRODUCT product[numOfCategories][numOfProducts], int &id, const 
 			cin >> choice;
 
 			if (choice == "y" || choice == "Y") {
-				// User wants to return — restart loop
+				// User wants to return ï¿½ restart loop
 				break; // or use 'continue;' if inside a larger loop
 			}
 			else if (choice == "n" || choice == "N") {

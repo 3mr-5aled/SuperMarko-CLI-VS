@@ -160,9 +160,9 @@ bool validateLocation(string location, string current = "1") {
             << RESET << endl;
         valid = false;
     }
-    else if (location.length() < 5)
+    else if (location.length() < 4)
     {
-        cout << RED << "Location must be at least 5 characters long."
+        cout << RED << "Location must be at least 4 characters long."
             << RESET << endl;
         valid = false;
     }
