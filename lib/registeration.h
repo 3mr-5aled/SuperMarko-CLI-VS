@@ -65,13 +65,9 @@ bool registerUser(CUSTOMER customers[], const int numerofcustomers, fstream &myf
             customers[index].Name = name;
         }
     }
-<<<<<<< HEAD
 
-    cout << CYAN << "Enter your Password (Must has at least 8 characters , 1 UPPERCASE , 1 LOWERCASE , 1 SPECIAL CHARACTER) " << RESET << endl;
-=======
-    
+   
     cout << CYAN << "Enter your Password (Must has at least 8 characters , 1 UPPERCASE , 1 LOWERCASE , 1 SPEICAL CHARACTER) "<< RESET << endl;
->>>>>>> parent of 28c50ef (here)
     while (!validPassword)
     {
         cout << CYAN << "Password: " << RESET;

@@ -1,10 +1,6 @@
 ﻿#include <iostream>
 #include <string>
 #include "struct.h"
-#include <conio.h>
-#include "lib/change_exchange.h"
-#include "validation_functions.h"
-
 using namespace std;
 
 // Display menu to edit user information
@@ -23,11 +19,11 @@ int displayMenu()
         cout << endl;
         cout << BOLD << YELLOW << "Enter your choice: " << RESET;
         cin >> choice;
-		bool state = changestateExchange(choice, digitchoice);
+        bool state = changestateExchange(choice, digitchoice);
         if (digitchoice < 0 || digitchoice > 4 || !state)
         {
             cout << RED << "Invalid choice. Please enter a number between 0 and 4."
-                << RESET<<endl;
+                << RESET << endl;
             continue;
         }
         break;
@@ -35,7 +31,7 @@ int displayMenu()
     return digitchoice;
 }
 
-// Edit name with matching registration validation
+// Edit name
 bool editName(CUSTOMER& currentCustomer, CUSTOMER customers[], int numOfCustomers)
 {
     string name;
@@ -43,8 +39,6 @@ bool editName(CUSTOMER& currentCustomer, CUSTOMER customers[], int numOfCustomer
 
     cout << BOLD << BLUE << "Current Name: " << RESET << currentCustomer.Name << endl;
     cout << endl;
-
-
 
     while (!validName)
     {
@@ -60,7 +54,8 @@ bool editName(CUSTOMER& currentCustomer, CUSTOMER customers[], int numOfCustomer
 
         validName = validateUsername(name, currentCustomer.Name);
 
-        if (validName) {
+        if (validName)
+        {
             // Check if username already exists in any customer record
             bool usernameExists = false;
             for (int i = 0; i < numOfCustomers; i++)
@@ -70,7 +65,7 @@ bool editName(CUSTOMER& currentCustomer, CUSTOMER customers[], int numOfCustomer
                 {
                     if (customers[i].Name == name)
                     {
-                        cout << RED << "Username already exists! Please choose another one." << RESET<<endl;
+                        cout << RED << "Username already exists! Please choose another one." << RESET << endl;
                         usernameExists = true;
                         break;
                     }
@@ -84,12 +79,11 @@ bool editName(CUSTOMER& currentCustomer, CUSTOMER customers[], int numOfCustomer
             }
         }
     }
-    
 
     return true;
 }
 
-// Edit phone number with matching registration validation
+// Edit phone number
 bool editPhoneNumber(CUSTOMER& currentCustomer)
 {
     string phone;
@@ -97,8 +91,6 @@ bool editPhoneNumber(CUSTOMER& currentCustomer)
 
     cout << BOLD << BLUE << "Current Phone Number: " << RESET << currentCustomer.PhoneNumber << endl;
     cout << endl;
-
-
 
     while (!validPhone)
     {
@@ -109,8 +101,9 @@ bool editPhoneNumber(CUSTOMER& currentCustomer)
             return false;
         }
 
-		validPhone = validatePhone(phone, currentCustomer.PhoneNumber);
-        if (validPhone) {
+        validPhone = validatePhone(phone, currentCustomer.PhoneNumber);
+        if (validPhone)
+        {
             currentCustomer.PhoneNumber = phone;
         }
     }
@@ -118,7 +111,7 @@ bool editPhoneNumber(CUSTOMER& currentCustomer)
     return true;
 }
 
-// Edit location with matching registration validation
+// Edit location
 bool editLocation(CUSTOMER& currentCustomer)
 {
     string location;
@@ -126,7 +119,6 @@ bool editLocation(CUSTOMER& currentCustomer)
 
     cout << BOLD << BLUE << "Current Location: " << RESET << currentCustomer.Location << endl;
     cout << endl;
-
 
     while (!validLocation)
     {
@@ -137,28 +129,25 @@ bool editLocation(CUSTOMER& currentCustomer)
             return false;
         }
         validLocation = validateLocation(location, currentCustomer.Location);
-        if (validLocation) {
-			currentCustomer.Location = location;
+        if (validLocation)
+        {
+            currentCustomer.Location = location;
         }
     }
 
     return true;
 }
 
-// Edit password with matching registration validation
+// Edit password
 bool editPassword(CUSTOMER& currentCustomer)
 {
     string password;
     bool validPassword = false;
 
-
-<<<<<<< HEAD
     cout << BOLD << CYAN << "Enter the new password (Must has at least 8 characters , 1 UPPERCASE , 1 LOWERCASE , 1 SPECIAL CHARACTER): " << RESET << endl;
 
-=======
     cout << BOLD << CYAN << "Enter the new password (Must has at least 8 characters , 1 UPPERCASE , 1 LOWERCASE , 1 SPEICAL CHARACTER): " << RESET << endl;
-    cout << CYAN << "New Password: " << RESET ;
->>>>>>> parent of 28c50ef (here)
+    cout << CYAN << "New Password: " << RESET;
     while (!validPassword)
     {
         cout << CYAN << "New Password: " << RESET;
@@ -179,8 +168,9 @@ bool editPassword(CUSTOMER& currentCustomer)
         }
         cout << endl;
 
-		validPassword = validatePassword(password);
-        if (!validPassword) {
+        validPassword = validatePassword(password);
+        if (!validPassword)
+        {
             continue;
         }
 
@@ -202,21 +192,16 @@ bool editPassword(CUSTOMER& currentCustomer)
             }
         }
         // Mask input for confirmation
-<<<<<<< HEAD
 
-=======
-        if (!returning(confirmPassword, "editing",true))
+        if (!returning(confirmPassword, "editing", true))
             return false;
->>>>>>> parent of 28c50ef (here)
 
         // Check if passwords match
         if (password != confirmPassword)
         {
-<<<<<<< HEAD
+
             cout << RED << "\nPasswords do not match!" << RESET << endl;
-=======
-            cout << RED << "Passwords do not match!" << RESET<<endl;
->>>>>>> parent of 28c50ef (here)
+            cout << RED << "Passwords do not match!" << RESET << endl;
             continue;
         }
 
@@ -227,7 +212,6 @@ bool editPassword(CUSTOMER& currentCustomer)
 
     return true;
 }
-
 // Display updated information
 void displayInformation(const CUSTOMER& currentCustomer, int state = 1)
 {
@@ -238,7 +222,7 @@ void displayInformation(const CUSTOMER& currentCustomer, int state = 1)
         cout << GREEN << "Name: " << RESET << currentCustomer.Name << endl;
         cout << GREEN << "Phone Number: " << RESET << currentCustomer.PhoneNumber << endl;
         cout << GREEN << "Location: " << RESET << currentCustomer.Location << endl;
-        cout << GREEN << "Password: " << RESET << "*********" << endl;  // Hide password for security
+        cout << GREEN << "Password: " << RESET << currentCustomer.Password << endl;
         cout << BOLD << "-------------------" << RESET << endl;
     }
     else if (state == 2)
@@ -251,7 +235,7 @@ void displayInformation(const CUSTOMER& currentCustomer, int state = 1)
         cout << GREEN << "Name: " << RESET << currentCustomer.Name << endl;
         cout << GREEN << "Phone Number: " << RESET << currentCustomer.PhoneNumber << endl;
         cout << GREEN << "Location: " << RESET << currentCustomer.Location << endl;
-        cout << GREEN << "Password: " << RESET << "*********" << endl;  // Hide password for security
+        cout << GREEN << "Password: " << RESET << currentCustomer.Password << endl;
         cout << BOLD << "--------------------------" << RESET << endl;
     }
     cout << endl;
@@ -330,11 +314,12 @@ void editUserInformation(CUSTOMER customers[], int id, int numOfCustomers)
                     cout << RED << BOLD << "Error: " << RESET << "Invalid input. Please enter y or n." << endl;
                 }
             } while (editMore != "y" && editMore != "Y" && editMore != "n" && editMore != "N");
-		}
-		else
-		{
-			cout << RED << BOLD << "Error: " << RESET << "No changes have been made." << endl;
-    }
+        }
+        else
+        {
+            cout << RED << BOLD << "Error: " << RESET << "No changes have been made." << endl;
+        }
 
-    cout << endl;
+        cout << endl;
+    }
 }
